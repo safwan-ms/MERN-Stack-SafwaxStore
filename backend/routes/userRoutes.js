@@ -21,6 +21,8 @@ router
   .route("/")
   .post(createUser)
   .get(authenticate, authorizedAdmin, getAllUsers);
+
+//http://localhost:5000/api/users/auth
 router.post("/auth", loginUser);
 router.post("/logout", logoutCurrentUser);
 router
