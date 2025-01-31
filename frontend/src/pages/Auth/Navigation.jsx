@@ -71,6 +71,7 @@ const Navigation = () => {
       </div>
 
       <ul>
+        {/* Login  */}
         <li>
           <Link
             to="/login"
@@ -82,6 +83,8 @@ const Navigation = () => {
             </span>
           </Link>
         </li>
+
+        {/* Register */}
         <li>
           <Link
             to="/register"
