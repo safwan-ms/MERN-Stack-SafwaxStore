@@ -6,16 +6,34 @@ import {
   AiOutlineUserAdd,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
-import "./Navigation.css";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
+import "./Navigation.css";
+import { useSelector, useDispatch } from "react-redux";
+import { useLoginMutation } from "../../redux/api/usersApiSlice.js";
+import { logout } from "../../redux/features/Auth/authSlice.js";
 
 const Navigation = () => {
+  const { userInfo } = useSelector((state) => state.auth);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
   const toggleSidebar = () => setShowSidebar(!showSidebar);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [logoutApiCall] = useLoginMutation();
+  const logoutHandler = async () => {
+    try {
+      await logoutApiCall().unwrap();
+      dispatch();
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div
       style={{ zIndex: 9999 }}
@@ -68,6 +86,20 @@ const Navigation = () => {
             FAVORITE
           </span>
         </Link>
+      </div>
+
+      <div className="relative">
+        <button
+          onClick={toggleDropdown}
+          className="flex items-center text-gray-800 focus:outline-none"
+        >
+          {" "}
+          {userInfo ? (
+            <span className="text-white"> {userInfo.username}</span>
+          ) : (
+            <></>
+          )}
+        </button>
       </div>
 
       <ul>
