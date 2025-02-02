@@ -10,10 +10,11 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [login, { isLoading }] = useLoginMutation();
+
   const { userInfo } = useSelector((state) => state.auth);
 
   const { search } = useLocation();
@@ -24,20 +25,19 @@ const Login = () => {
     if (userInfo) {
       navigate(redirect);
     }
-  }, [navigate, redirect, userInfo]);
+  }, [userInfo, navigate, redirect]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
     try {
       const res = await login({ email, password }).unwrap();
       console.log(res);
       dispatch(setCredentials({ ...res }));
+      navigate(redirect);
     } catch (error) {
-      console.error(error?.data?.message || error.message);
+      toast.error(error?.data?.message || error.error);
     }
   };
-
   return (
     <div>
       <section className="px-[3rem] md:px-[5rem] lg:px-[10rem] text-xl xl:text-2xl`">
