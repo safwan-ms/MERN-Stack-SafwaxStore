@@ -13,11 +13,13 @@ import {
   Route,
   RouterProvider,
 } from "react-router";
+import Register from "./pages/Auth/Register.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
     </Route>
   )
 );

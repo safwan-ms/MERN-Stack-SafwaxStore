@@ -40,7 +40,7 @@ const Login = () => {
   };
   return (
     <div>
-      <section className="px-[3rem] md:px-[5rem] lg:px-[10rem] text-xl xl:text-2xl`">
+      <section className="px-[2.8rem] md:px-[5rem] lg:px-[10rem] text-xl xl:text-2xl`">
         <div className="mt-[5rem] lg:mt-[5rem]">
           <h1 className="text-2xl font-semibold mb-4">Sign In</h1>
 
@@ -49,7 +49,7 @@ const Login = () => {
             onSubmit={submitHandler}
             className="container sm:w-[10rem]lg:w-[30rem] xl:w-[40rem]"
           >
-            <div className="my-[1.9rem] md:my-[2rem] flex flex-col">
+            <div className="my-[1rem] md:my-[2rem] flex flex-col">
               <label htmlFor="email" className="text-base xl:text-lg">
                 Email Address
               </label>
@@ -63,7 +63,7 @@ const Login = () => {
             </div>
 
             {/* Password */}
-            <div className="my-[2rem] flex flex-col">
+            <div className="my-[1rem] md:[2rem] flex flex-col">
               <label htmlFor="email" className="text-base xl:text-lg">
                 Password
               </label>
