@@ -161,7 +161,7 @@ const Navigation = () => {
         style={{ zIndex: 9999 }}
         className={`
           ${showSidebar ? "left-[15%]" : "-left-[15%]"}
-          transition-all lg:hover:w-[15%] duration-300 ease-in-out
+          transition-all hover:w-[15%] duration-300 ease-in-out
           lg:left-0 xl:flex lg:flex flex-col justify-between
           md:p-2 p-1 xl:p-3 text-white bg-[#000] 
           w-[10%] lg:hover:w-[15%] h-[100vh] fixed
