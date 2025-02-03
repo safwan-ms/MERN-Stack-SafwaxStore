@@ -6,6 +6,8 @@ import {
   AiOutlineUserAdd,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoExitOutline } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa";
 import { Link, NavLink } from "react-router";
 import { useNavigate } from "react-router";
@@ -18,8 +20,13 @@ const Navigation = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
-  const toggleSidebar = () => setShowSidebar(!showSidebar);
+
+  const toggleSidebar = () => {
+    setShowSidebar((prev) => !prev);
+    if (setShowSidebar) {
+      console.log("Sidebar opened");
+    }
+  };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,11 +44,23 @@ const Navigation = () => {
 
   return (
     <div>
-      <nav className="flex justify-between px-10 fixed bg-gradient-to-r from-pink-900 to-pink-500 w-full p-4 text-2xl pl-20">
-        <Link to={"/"}> Safwax Store</Link>
+      <nav
+        onMouseLeave={() => setDropdownOpen(false)}
+        onTouchEnd={() => setDropdownOpen(false)}
+        className="flex justify-between lg:px-10 fixed bg-gradient-to-r from-pink-900 to-pink-500 w-full p-2 lg:p-4 lg:pl-20"
+      >
+        <Link to={"/"}>
+          <button className="hover:cursor-pointer flex xl:text-xl gap-3">
+            <div>
+              <GiHamburgerMenu className="mt-1 lg:" onClick={toggleSidebar} />
+            </div>
+            Safwax Store
+          </button>
+        </Link>
         <button
-          onClick={toggleDropdown}
-          className="flex text-base items-center text-gray-800 focus:outline-none"
+          onMouseEnter={() => setDropdownOpen(true)}
+          onTouchStart={() => setDropdownOpen(true)}
+          className="flex  lg:text-base items-center text-gray-800 focus:outline-none"
         >
           {userInfo ? (
             <span className="text-white cursor-pointer ">
@@ -53,7 +72,7 @@ const Navigation = () => {
           {userInfo && (
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`h-4 w-4 ml-1 ${
+              className={`h-4 w-4 ml-1 cursor-pointer ${
                 dropdownOpen ? "transform rotate-180" : ""
               }`}
               fill="none"
@@ -71,7 +90,9 @@ const Navigation = () => {
         </button>
         {dropdownOpen && userInfo && (
           <ul
-            className={`absolute  mt-2 mr-14 space-y-2 text-white bg-gray-800 top-10 right-0.5`}
+            className={`
+              ${showSidebar ? "flex" : "hidden"}
+              absolute  mt-2 mr-14 space-y-2 text-white bg-gray-800 top-7 right-0 lg:top-10 lg:right-0.5`}
           >
             {userInfo.isAdmin && (
               <>
@@ -128,7 +149,7 @@ const Navigation = () => {
             <li>
               <button
                 onClick={logoutHandler}
-                className="block px-4 py-2 text-xs hover:bg-gray-100 hover:text-black"
+                className="block px-4 w-full text-left py-2 text-xs hover:bg-gray-100 hover:text-black cursor-pointer"
               >
                 Logout
               </button>
@@ -136,18 +157,22 @@ const Navigation = () => {
           </ul>
         )}
       </nav>
-      <div
+      <aside
         style={{ zIndex: 9999 }}
-        className={`${
-          showSidebar ? "hidden" : "flex"
-        }  xl:flex lg:flex flex-col justify-between md:p-2 p-1 xl:p-3  text-white bg-[#000] w-[10%] lg:hover:w-[15%] h-[100vh]  fixed `}
+        className={`
+          ${showSidebar ? "left-[15%]" : "-left-[15%]"}
+          transition-all lg:hover:w-[15%] duration-300 ease-in-out
+          lg:left-0 xl:flex lg:flex flex-col justify-between
+          md:p-2 p-1 xl:p-3 text-white bg-[#000] 
+          w-[10%] lg:hover:w-[15%] h-[100vh] fixed
+        `}
         id="navigation-container"
       >
         <div className="flex flex-col justify-center space-y-4">
           {/* Home */}
           <NavLink
             to="/"
-            className={` flex items-center transition-transform transform hover:translate-x-2 hover:bg-pink-500`}
+            className={` flex items-center transition-transform transform hover:translate-x-2`}
           >
             <AiOutlineHome className="mr-2 mt-[3rem]" size={26} />
             <span className="hidden nav-item-name mt-[3rem] text-white">
@@ -190,15 +215,15 @@ const Navigation = () => {
         </div>
 
         {userInfo && (
-          <NavLink
-            to="/"
-            className={` flex items-center transition-transform transform hover:translate-x-2 hover:bg-pink-500`}
+          <button
+            onClick={logoutHandler}
+            className={` flex items-center transition-transform transform hover:translate-x-2 cursor-pointer`}
           >
-            <AiOutlineHome className="mr-2 mt-[3rem]" size={26} />
+            <IoExitOutline className="mr-2 mt-[3rem]" size={26} />
             <span className="hidden nav-item-name mt-[3rem] text-white">
               Logout
             </span>
-          </NavLink>
+          </button>
         )}
 
         {!userInfo && (
@@ -230,7 +255,7 @@ const Navigation = () => {
             </li>
           </ul>
         )}
-      </div>
+      </aside>
     </div>
   );
 };
