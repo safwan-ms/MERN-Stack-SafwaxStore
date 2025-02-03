@@ -13,7 +13,14 @@
   display: none;
   transition: opacity 0.2s ease-in-out; /* Add opacity transition */
 }
+.hover-effect {
+  transition: color 0.3s ease, transform 0.3s ease;
+}
 
+a.active {
+  color: #f472b6;
+  transform: translateX(8px);
+}
 #navigation-container:hover .nav-item-name {
   display: block;
   opacity: 1;

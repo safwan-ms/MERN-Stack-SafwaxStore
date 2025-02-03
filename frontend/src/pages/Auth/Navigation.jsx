@@ -9,23 +9,19 @@ import {
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoExitOutline } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa";
-import { Link, NavLink } from "react-router";
-import { useNavigate } from "react-router";
-import "./Navigation.css";
+import { Link, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../../redux/api/usersApiSlice.js";
 import { logout } from "../../redux/features/Auth/authSlice.js";
+import "./Navigation.css";
 
 const Navigation = () => {
   const { userInfo } = useSelector((state) => state.auth);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
-
-  const toggleSidebar = () => {
-    setShowSidebar((prev) => !prev);
-    if (setShowSidebar) {
-      console.log("Sidebar opened");
-    }
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
   };
 
   const dispatch = useDispatch();
@@ -44,35 +40,28 @@ const Navigation = () => {
 
   return (
     <div>
-      <nav
-        onMouseLeave={() => setDropdownOpen(false)}
-        onTouchEnd={() => setDropdownOpen(false)}
-        className="flex justify-between lg:px-10 fixed bg-gradient-to-r from-pink-900 to-pink-500 w-full p-2 lg:p-4 lg:pl-20"
-      >
-        <Link to={"/"}>
-          <button className="hover:cursor-pointer flex xl:text-xl gap-3">
-            <div>
-              <GiHamburgerMenu className="mt-1 lg:" onClick={toggleSidebar} />
-            </div>
-            Safwax Store
-          </button>
-        </Link>
+      {/* Navbar */}
+      <nav className="flex justify-between items-center px-4 lg:px-10 fixed bg-gradient-to-r from-pink-900 to-pink-500 w-full py-3 lg:py-4 z-50">
         <button
-          onMouseEnter={() => setDropdownOpen(true)}
-          onTouchStart={() => setDropdownOpen(true)}
-          className="flex  lg:text-base items-center text-gray-800 focus:outline-none"
+          className="flex items-center text-lg lg:text-xl gap-3 text-white"
+          onClick={() => setShowSidebar(!showSidebar)}
+        >
+          <GiHamburgerMenu className="cursor-pointer" />
+          Safwax Store
+        </button>
+        <button
+          onClick={toggleDropdown}
+          className="flex items-center text-gray-800 focus:outline-none"
         >
           {userInfo ? (
-            <span className="text-white cursor-pointer ">
-              {userInfo.username}
-            </span>
+            <span className="text-white">{userInfo.username}</span>
           ) : (
             <></>
           )}
           {userInfo && (
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`h-4 w-4 ml-1 cursor-pointer ${
+              className={`h-4 w-4 ml-1 ${
                 dropdownOpen ? "transform rotate-180" : ""
               }`}
               fill="none"
@@ -90,16 +79,14 @@ const Navigation = () => {
         </button>
         {dropdownOpen && userInfo && (
           <ul
-            className={`
-              ${showSidebar ? "flex" : "hidden"}
-              absolute  mt-2 mr-14 space-y-2 text-white bg-gray-800 top-7 right-0 lg:top-10 lg:right-0.5`}
+            className={`absolute -right-10 lg:-right-6 mt-2 mr-14 space-y-2 bg-white text-gray-600 top-10 `}
           >
             {userInfo.isAdmin && (
               <>
                 <li>
                   <Link
                     to="/admin/dashboard"
-                    className="block px-4 text-xs py-2 hover:bg-gray-300 shadow-inner shadow-gray-950 hover:text-black"
+                    className="block px-4 py-2 hover:bg-gray-100"
                   >
                     Dashboard
                   </Link>
@@ -107,7 +94,7 @@ const Navigation = () => {
                 <li>
                   <Link
                     to="/admin/productlist"
-                    className="block px-4 py-2  text-xs hover:bg-gray-100 hover:text-black"
+                    className="block px-4 py-2 hover:bg-gray-100"
                   >
                     Products
                   </Link>
@@ -115,7 +102,7 @@ const Navigation = () => {
                 <li>
                   <Link
                     to="/admin/categorylist"
-                    className="block px-4 py-2 text-xs hover:bg-gray-100 hover:text-black"
+                    className="block px-4 py-2 hover:bg-gray-100"
                   >
                     Category
                   </Link>
@@ -123,7 +110,7 @@ const Navigation = () => {
                 <li>
                   <Link
                     to="/admin/orderlist"
-                    className="block px-4 py-2 text-xs hover:bg-gray-100 hover:text-black"
+                    className="block px-4 py-2 hover:bg-gray-100"
                   >
                     Orders
                   </Link>
@@ -131,132 +118,125 @@ const Navigation = () => {
                 <li>
                   <Link
                     to="/admin/userlist"
-                    className="block px-4 py-2 text-xs hover:bg-gray-100"
+                    className="block px-4 py-2 hover:bg-gray-100"
                   >
                     Users
                   </Link>
                 </li>
               </>
             )}
+
             <li>
-              <Link
-                to="/admin/profile"
-                className="block px-4 py-2 text-xs hover:bg-gray-100 hover:text-black"
-              >
+              <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100">
                 Profile
               </Link>
             </li>
             <li>
               <button
                 onClick={logoutHandler}
-                className="block px-4 w-full text-left py-2 text-xs hover:bg-gray-100 hover:text-black cursor-pointer"
+                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
               >
                 Logout
               </button>
             </li>
           </ul>
         )}
-      </nav>
-      <aside
-        style={{ zIndex: 9999 }}
-        className={`
-          ${showSidebar ? "left-[15%]" : "-left-[15%]"}
-          transition-all hover:w-[15%] duration-300 ease-in-out
-          lg:left-0 xl:flex lg:flex flex-col justify-between
-          md:p-2 p-1 xl:p-3 text-white bg-[#000] 
-          w-[10%] lg:hover:w-[15%] h-[100vh] fixed
-        `}
-        id="navigation-container"
-      >
-        <div className="flex flex-col justify-center space-y-4">
-          {/* Home */}
-          <NavLink
-            to="/"
-            className={` flex items-center transition-transform transform hover:translate-x-2`}
-          >
-            <AiOutlineHome className="mr-2 mt-[3rem]" size={26} />
-            <span className="hidden nav-item-name mt-[3rem] text-white">
-              HOME
-            </span>
-          </NavLink>
-
-          {/* Shopping */}
-          <NavLink
-            to="/shop"
-            className="flex items-center transition-transform transform hover:translate-x-2"
-          >
-            <AiOutlineShopping className="mr-2 mt-[3rem]" size={26} />
-            <span className="hidden nav-item-name mt-[3rem] text-white">
-              SHOP
-            </span>
-          </NavLink>
-
-          {/* Cart */}
-          <NavLink
-            to="/cart"
-            className="flex items-center transition-transform transform hover:translate-x-2"
-          >
-            <AiOutlineShoppingCart className="mr-2 mt-[3rem]" size={26} />
-            <span className="hidden nav-item-name mt-[3rem] text-white">
-              CART
-            </span>
-          </NavLink>
-
-          {/* Favorite */}
-          <NavLink
-            to="/favorite"
-            className="flex items-center transition-transform transform hover:translate-x-2"
-          >
-            <FaHeart className="mr-2 mt-[3rem]" size={26} />
-            <span className="hidden nav-item-name mt-[3rem] cursor-pointer text-white">
-              FAVORITE
-            </span>
-          </NavLink>
-        </div>
-
-        {userInfo && (
-          <button
-            onClick={logoutHandler}
-            className={` flex items-center transition-transform transform hover:translate-x-2 cursor-pointer`}
-          >
-            <IoExitOutline className="mr-2 mt-[3rem]" size={26} />
-            <span className="hidden nav-item-name mt-[3rem] text-white">
-              Logout
-            </span>
-          </button>
-        )}
-
         {!userInfo && (
-          <ul>
-            {/* Login  */}
+          <ul className="flex gap-1">
             <li>
               <Link
                 to="/login"
-                className="flex items-center transition-transform transform hover:translate-x-2"
+                className="flex items-center  transition-transform transform hover:translate-x-2"
               >
-                <AiOutlineLogin className="mr-2 mt-[3rem]" size={26} />
-                <span className="hidden nav-item-name mt-[3rem] text-white">
-                  Login
-                </span>
-              </Link>
-            </li>
-
-            {/* Register */}
-            <li>
-              <Link
-                to="/register"
-                className="flex items-center transition-transform transform hover:translate-x-2"
-              >
-                <AiOutlineUserAdd className="mr-2 mt-[3rem]" size={26} />
-                <span className="hidden nav-item-name mt-[3rem] text-white">
-                  Register
-                </span>
+                <AiOutlineLogin className="mr-2 mt-[4px]" size={26} />
+                <span className="hidden nav-item-name">LOGIN</span>
               </Link>
             </li>
           </ul>
         )}
+      </nav>
+
+      {/* Sidebar Overlay for Mobile */}
+      {showSidebar && (
+        <div
+          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-40"
+          onClick={() => setShowSidebar(false)}
+        ></div>
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed top-0 left-0 h-full bg-black text-white p-4 transform ${
+          showSidebar ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out w-[70%] lg:w-[15%] z-50`}
+      >
+        {/* Close Button for Mobile */}
+        <button
+          onClick={() => setShowSidebar(false)}
+          className="absolute top-2 right-2 text-white text-2xl lg:hidden"
+        >
+          ✖
+        </button>
+
+        <div className="flex flex-col justify-between h-screen pb-16 pt-10  space-y-6">
+          <div>
+            <NavLink
+              to="/"
+              className="hover-effect flex items-center gap-3 py-3 hover:text-pink-400 hover:translate-x-2"
+            >
+              <AiOutlineHome size={26} /> <span>HOME</span>
+            </NavLink>
+
+            <NavLink
+              to="/shop"
+              className="flex items-center gap-3 py-3 hover:text-pink-400 hover:translate-x-2"
+            >
+              <AiOutlineShopping size={26} /> <span>SHOP</span>
+            </NavLink>
+
+            <NavLink
+              to="/cart"
+              className="flex items-center gap-3  py-3 hover:text-pink-400 hover:translate-x-2"
+            >
+              <AiOutlineShoppingCart size={26} /> <span>CART</span>
+            </NavLink>
+
+            <NavLink
+              to="/favorite"
+              className="hover-effect  flex items-center gap-3  py-3 hover:text-pink-400 hover:translate-x-2 "
+            >
+              <FaHeart size={26} /> <span>FAVORITE</span>
+            </NavLink>
+          </div>
+          <div>
+            {userInfo ? (
+              <button
+                onClick={logoutHandler}
+                className="flex items-center gap-3  py-3 text-red-400 hover:text-red-600"
+              >
+                <IoExitOutline size={26} /> <span>LOGOUT</span>
+              </button>
+            ) : (
+              <>
+                <NavLink
+                  to="/login"
+                  className="hover-effect flex items-center py-3 gap-3 hover:text-pink-400 hover:translate-x-2"
+                >
+                  <AiOutlineLogin size={26} /> <span>LOGIN</span>
+                </NavLink>
+                <NavLink
+                  to="/register"
+                  className="flex items-center gap-3 hover:text-pink-400 hover:translate-x-2"
+                >
+                  <AiOutlineUserAdd size={26} /> <span>REGISTER</span>
+                </NavLink>
+              </>
+            )}
+          </div>
+        </div>
       </aside>
     </div>
   );
 };
+
 export default Navigation;
