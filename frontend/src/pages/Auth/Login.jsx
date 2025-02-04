@@ -47,31 +47,37 @@ const Login = () => {
           {/* Email */}
           <form
             onSubmit={submitHandler}
-            className="container sm:w-[10rem]lg:w-[30rem] xl:w-[40rem]"
+            className="container sm:w-[10rem] lg:w-[30rem] xl:w-[40rem]"
           >
-            <div className="my-[1rem] md:my-[2rem] flex flex-col">
-              <label htmlFor="email" className="text-base xl:text-lg">
+            <div className="my-[12px] md:my-[1rem] flex flex-col">
+              <label
+                htmlFor="email"
+                className=" text-sm md:text-base xl:text-lg"
+              >
                 Email Address
               </label>
               <input
                 type="email"
                 id="email"
-                className="mt-3 border rounded-md w-full p-1 text-base xl:text-lg"
+                className="mt-3 border rounded-md w-full p-[2px] text-base xl:text-lg"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
             {/* Password */}
-            <div className="my-[1rem] md:[2rem] flex flex-col">
-              <label htmlFor="email" className="text-base xl:text-lg">
+            <div className="my-[12px] md:my-[1rem] flex flex-col">
+              <label
+                htmlFor="email"
+                className="text-sm md:text-base xl:text-lg"
+              >
                 Password
               </label>
               <input
                 type="password"
                 id="password"
                 placeholder=""
-                className="mt-3 border rounded-md w-full p-1 text-base xl:text-lg"
+                className="mt-3 border rounded-md w-full p-[2px] text-base xl:text-lg"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -80,7 +86,7 @@ const Login = () => {
             <button
               disabled={isLoading}
               type="submit"
-              className="bg-pink-500 text-base xl:text-lg text-white px-4 py-2 rounded cursor-pointer my-[1rem]"
+              className="bg-pink-500 text-base xl:text-lg text-white px-3 py-1 rounded cursor-pointer my-[1rem]"
             >
               {isLoading ? "Signing In" : "Sign In"}
             </button>

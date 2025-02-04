@@ -30,7 +30,6 @@ const Register = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
     } else {
@@ -63,7 +62,7 @@ const Register = () => {
           <input
             type="text"
             id="name"
-            className="mt-3 border rounded-md w-full p-[2px] text-sm xl:text-lg"
+            className="mt-1 border rounded-md w-full p-[2px] text-sm xl:text-lg"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -76,7 +75,7 @@ const Register = () => {
           <input
             type="email"
             id="email"
-            className="mt-3 border rounded-md w-full p-[2px] text-sm xl:text-lg"
+            className="mt-1 border rounded-md w-full p-[2px] text-sm xl:text-lg"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -91,7 +90,7 @@ const Register = () => {
             type="password"
             id="password"
             placeholder=""
-            className="mt-3 border rounded-md w-full p-[2px] text-sm xl:text-lg"
+            className="mt-1 border rounded-md w-full p-[2px] text-sm xl:text-lg"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -105,7 +104,7 @@ const Register = () => {
             type="password"
             id="password"
             placeholder=""
-            className="mt-3 border rounded-md w-full p-[2px] text-sm xl:text-lg"
+            className="mt-1 md:mt-3 border rounded-md w-full p-[2px] text-sm xl:text-lg"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
@@ -123,9 +122,9 @@ const Register = () => {
       </form>
       <div>
         <p className="text-sm xl:text-lg">
-          Already have an account Customer ?{" "}
+          Already have an account Customer?{" "}
           <Link
-            to={redirect ? `/login?redirect=${redirect}` : "/register"}
+            to={redirect ? `/login?redirect=${redirect}` : "/login"}
             className="text-pink-500 hover:underline"
           >
             {" "}
