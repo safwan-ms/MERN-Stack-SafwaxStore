@@ -79,14 +79,14 @@ const Navigation = () => {
         </button>
         {dropdownOpen && userInfo && (
           <ul
-            className={`absolute -right-10 lg:-right-6 mt-2 mr-14 space-y-2 bg-white text-gray-600 top-10 `}
+            className={`absolute -right-10 lg:-right-6 mt-2 mr-14 space-y-2 text-white bg-gray-600 top-10 `}
           >
             {userInfo.isAdmin && (
               <>
                 <li>
                   <Link
                     to="/admin/dashboard"
-                    className="block px-4 py-2 hover:bg-gray-100"
+                    className="block px-4 py-2  hover:bg-gray-100 hover:text-gray-600"
                   >
                     Dashboard
                   </Link>
@@ -94,7 +94,7 @@ const Navigation = () => {
                 <li>
                   <Link
                     to="/admin/productlist"
-                    className="block px-4 py-2 hover:bg-gray-100"
+                    className="block px-4 py-2 hover:bg-gray-100 hover:text-gray-600"
                   >
                     Products
                   </Link>
@@ -102,7 +102,7 @@ const Navigation = () => {
                 <li>
                   <Link
                     to="/admin/categorylist"
-                    className="block px-4 py-2 hover:bg-gray-100"
+                    className="block px-4 py-2 hover:bg-gray-100 hover:text-gray-600"
                   >
                     Category
                   </Link>
@@ -110,7 +110,7 @@ const Navigation = () => {
                 <li>
                   <Link
                     to="/admin/orderlist"
-                    className="block px-4 py-2 hover:bg-gray-100"
+                    className="block px-4 py-2 hover:bg-gray-100 hover:text-gray-600"
                   >
                     Orders
                   </Link>
@@ -118,7 +118,7 @@ const Navigation = () => {
                 <li>
                   <Link
                     to="/admin/userlist"
-                    className="block px-4 py-2 hover:bg-gray-100"
+                    className="block px-4 py-2 hover:bg-gray-100 hover:text-gray-600"
                   >
                     Users
                   </Link>
@@ -127,14 +127,17 @@ const Navigation = () => {
             )}
 
             <li>
-              <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100">
+              <Link
+                to="/profile"
+                className="block px-4 py-2 hover:bg-gray-100 hover:text-gray-600"
+              >
                 Profile
               </Link>
             </li>
             <li>
               <button
                 onClick={logoutHandler}
-                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                className="block w-full px-4 py-2 text-left hover:bg-gray-100 hover:text-gray-600"
               >
                 Logout
               </button>

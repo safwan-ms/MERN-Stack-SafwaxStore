@@ -26,6 +26,7 @@ const Profile = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
       toast.error("Password do not match");
     } else {
@@ -39,7 +40,7 @@ const Profile = () => {
         dispatch(setCredentials({ ...res }));
         toast.success("Profile updated successfully");
       } catch (error) {
-        toast.error(error?.data?.message || error.message);
+        toast.error("Email already exists", error);
       }
     }
   };
