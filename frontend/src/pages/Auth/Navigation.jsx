@@ -41,20 +41,25 @@ const Navigation = () => {
   return (
     <div>
       {/* Navbar */}
-      <nav className="flex justify-between items-center px-4 lg:px-10 fixed bg-gradient-to-r from-pink-900 to-pink-500 w-full py-3 lg:py-4 z-50">
+      <nav
+        onMouseLeave={() => setDropdownOpen(false)}
+        className="flex justify-between items-center px-4 lg:px-10 fixed bg-gradient-to-r from-pink-900 to-pink-500 w-full py-3 lg:py-4 z-50"
+      >
         <button
-          className="flex items-center text-lg lg:text-xl gap-3 text-white"
+          className="flex items-center text-base md:text-lg lg:text-xl gap-3 text-white"
           onClick={() => setShowSidebar(!showSidebar)}
         >
           <GiHamburgerMenu className="cursor-pointer" />
           Safwax Store
         </button>
         <button
-          onClick={toggleDropdown}
+          onMouseEnter={() => setDropdownOpen(true)}
           className="flex items-center text-gray-800 focus:outline-none"
         >
           {userInfo ? (
-            <span className="text-white">{userInfo.username}</span>
+            <span className="text-white cursor-pointer text-xs lg:text-base">
+              {userInfo.username}
+            </span>
           ) : (
             <></>
           )}
@@ -80,6 +85,7 @@ const Navigation = () => {
         {dropdownOpen && userInfo && (
           <ul
             className={`absolute -right-10 lg:-right-6 mt-2 mr-14 space-y-2 text-white bg-gray-600 top-10 `}
+            onMouseLeave={toggleDropdown}
           >
             {userInfo.isAdmin && (
               <>
@@ -137,7 +143,7 @@ const Navigation = () => {
             <li>
               <button
                 onClick={logoutHandler}
-                className="block w-full px-4 py-2 text-left hover:bg-gray-100 hover:text-gray-600"
+                className="block w-full px-4 py-2 text-left hover:bg-gray-100 hover:text-gray-600 cursor-pointer"
               >
                 Logout
               </button>

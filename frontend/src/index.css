@@ -6,3 +6,16 @@
   font-weight: 400;
   font-style: normal;
 }
+/* Dark theme scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #333; /* Dark thumb */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #222; /* Dark track */
+}
