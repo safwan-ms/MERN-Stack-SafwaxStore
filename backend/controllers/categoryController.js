@@ -34,7 +34,7 @@ const updateCategory = asyncHandler(async (req, res) => {
 
     category.name = name;
 
-    const updatedCategory = await category.save();
+    const updatedCategory = await df.save();
     res.json(updatedCategory);
   } catch (error) {
     console.log(error);
@@ -42,4 +42,26 @@ const updateCategory = asyncHandler(async (req, res) => {
   }
 });
 
-export { createCategory, updateCategory };
+const removeCategory = asyncHandler(async (req, res) => {
+  try {
+    const category = await Category.findByIdAndDelete(req.params.categoryId);
+
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    res.json({ message: "Category removed successfully", category });
+  } catch (error) {
+    console.log(error);
+  }
+});
+const listCategories = asyncHandler(async (req, res) => {
+  try {
+    const all = await Category.find();
+    res.json(all);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+export { createCategory, updateCategory, removeCategory, listCategories };

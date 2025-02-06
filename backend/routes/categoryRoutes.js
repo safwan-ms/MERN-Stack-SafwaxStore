@@ -6,11 +6,19 @@ import {
 import {
   createCategory,
   updateCategory,
+  removeCategory,
+  listCategories,
 } from "../controllers/categoryController.js";
 
 const router = express.Router();
 
-router.route("/").post(authenticate, authorizedAdmin, createCategory);
-router.route("/:categoryId").put(authenticate, authorizedAdmin, updateCategory);
+router
+  .route("/")
+  .post(authenticate, authorizedAdmin, createCategory)
+  .get(authenticate, listCategories);
+router
+  .route("/:categoryId")
+  .put(authenticate, authorizedAdmin, updateCategory)
+  .delete(authenticate, authorizedAdmin, removeCategory);
 
 export default router;
