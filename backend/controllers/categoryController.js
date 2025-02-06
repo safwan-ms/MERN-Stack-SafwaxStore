@@ -55,6 +55,7 @@ const removeCategory = asyncHandler(async (req, res) => {
     console.log(error);
   }
 });
+
 const listCategories = asyncHandler(async (req, res) => {
   try {
     const all = await Category.find();
@@ -64,4 +65,22 @@ const listCategories = asyncHandler(async (req, res) => {
   }
 });
 
-export { createCategory, updateCategory, removeCategory, listCategories };
+const readCategory = asyncHandler(async (req, res) => {
+  try {
+    const category = await Category.findOne({ _id: req.params.id });
+
+    if (!category) return res.status(404).json({ error: "Category not found" });
+
+    res.status(202).json(category);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+export {
+  createCategory,
+  updateCategory,
+  removeCategory,
+  listCategories,
+  readCategory,
+};
