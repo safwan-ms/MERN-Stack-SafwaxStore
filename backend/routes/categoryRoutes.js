@@ -15,11 +15,10 @@ const router = express.Router();
 
 router.route("/").post(authenticate, authorizedAdmin, createCategory);
 
+router.route("/:categoryId").put(authenticate, authorizedAdmin, updateCategory);
 router
   .route("/:categoryId")
-  .put(authenticate, authorizedAdmin, updateCategory)
   .delete(authenticate, authorizedAdmin, removeCategory);
-
 router.route("/categories").get(listCategories);
 router.route("/:id").get(readCategory);
 
