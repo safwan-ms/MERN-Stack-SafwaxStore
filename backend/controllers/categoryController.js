@@ -34,7 +34,7 @@ const updateCategory = asyncHandler(async (req, res) => {
 
     category.name = name;
 
-    const updatedCategory = await df.save();
+    const updatedCategory = await category.save();
     res.json(updatedCategory);
   } catch (error) {
     console.log(error);

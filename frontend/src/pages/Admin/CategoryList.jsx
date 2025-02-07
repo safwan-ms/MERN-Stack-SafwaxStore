@@ -8,12 +8,13 @@ import {
 } from "../../redux/api/categoryApiSlice.js";
 import CategoryForm from "../../components/CategoryForm.jsx";
 import Loader from "../../components/Loader.jsx";
+import Modal from "../../components/Modal.jsx";
 
 const CategoryList = () => {
   const { data: categories, isLoading, refetch } = useFetchCategoriesQuery();
   const [name, setName] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [updateName, setUpdateName] = useState("");
+  const [updatingName, setUpdatingName] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   const [createCategory] = useCreateCategoryMutation();
@@ -43,6 +44,52 @@ const CategoryList = () => {
     }
   };
 
+  const handleUpdateCategory = async (e) => {
+    e.preventDefault();
+    if (!updatingName) {
+      toast.error("Category name is required");
+      return;
+    }
+    if (updatingName === selectedCategory.name) {
+      toast.error("Please provide different name for the category");
+      return;
+    }
+
+    try {
+      const result = await updateCategory({
+        categoryId: selectedCategory._id,
+        updatedCategory: {
+          name: updatingName,
+        },
+      }).unwrap();
+      if (result.error) {
+        toast.error(result.error);
+      } else {
+        toast.success(`${result.name} is updated`);
+        setSelectedCategory(null);
+        setUpdatingName("");
+        setModalVisible(false);
+        refetch();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDeleteCategory = async () => {
+    try {
+      const result = await deleteCategory(selectedCategory._id).unwrap();
+
+      if (result.error) {
+        toast.error(result.error);
+      } else {
+        toast.success(`${result.name} is deleted`);
+      }
+    } catch (error) {
+      console.log("Category deletion failed, please try again.");
+    }
+  };
+
   return (
     <div className="flex justify-center flex-col md:flex-row">
       {/* <AdminMenu/> */}
@@ -59,7 +106,9 @@ const CategoryList = () => {
 
         <div className="flex flex-wrap">
           {isLoading ? (
-            <Loader />
+            <div className="flex  h-screen w-full justify-center">
+              <Loader />
+            </div>
           ) : (
             categories.map((category) => (
               <div key={category._id}>
@@ -69,7 +118,7 @@ const CategoryList = () => {
                     {
                       setModalVisible(true);
                       setSelectedCategory(category);
-                      setUpdateName(category.name);
+                      setUpdatingName(category.name);
                     }
                   }}
                 >
@@ -79,6 +128,16 @@ const CategoryList = () => {
             ))
           )}
         </div>
+
+        <Modal isOpen={modalVisible} onClose={() => setModalVisible(false)}>
+          <CategoryForm
+            value={updatingName}
+            setValue={(value) => setUpdatingName(value)}
+            handleSubmit={handleUpdateCategory}
+            buttonText="Update"
+            handleDelete={handleDeleteCategory}
+          />
+        </Modal>
       </div>
     </div>
   );
