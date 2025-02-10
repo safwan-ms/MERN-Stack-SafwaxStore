@@ -65,4 +65,19 @@ const updateProductDetails = asyncHandler(async (req, res) => {
     res.status(400).json("Failed to update product", error.message);
   }
 });
-export { addProduct, updateProductDetails };
+
+const removeProduct = asyncHandler(async (req, res) => {
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id);
+
+    if (!product) return res.status(400).json({ message: "Product not found" });
+
+    res
+      .status(200)
+      .json({ message: "Product deleted successfully", product: product });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Failed to remove product", error.message);
+  }
+});
+export { addProduct, updateProductDetails, removeProduct };
