@@ -11,6 +11,7 @@ import {
   removeProduct,
   fetchProducts,
   fetchProductById,
+  fetchAllProducts,
 } from "../controllers/productController.js";
 
 const router = express.Router();
@@ -19,6 +20,9 @@ router
   .route("/")
   .get(fetchProducts)
   .post(authenticate, authorizedAdmin, formidable(), addProduct);
+
+router.route("/allproducts").get(fetchAllProducts);
+
 router
   .route("/:id")
   .get(fetchProductById)

@@ -120,10 +120,22 @@ const fetchProductById = asyncHandler(async (req, res) => {
   }
 });
 
+const fetchAllProducts = asyncHandler(async (req, res) => {
+  try {
+    const all = await Product.find({});
+    res.status(200).json(all);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400);
+    throw new Error("Failed to fetch all products");
+  }
+});
+
 export {
   addProduct,
   updateProductDetails,
   removeProduct,
   fetchProducts,
   fetchProductById,
+  fetchAllProducts,
 };
