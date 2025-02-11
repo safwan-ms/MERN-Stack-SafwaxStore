@@ -80,4 +80,28 @@ const removeProduct = asyncHandler(async (req, res) => {
     res.status(500).json("Failed to remove product", error.message);
   }
 });
-export { addProduct, updateProductDetails, removeProduct };
+
+const fetchProducts = asyncHandler(async (req, res) => {
+  try {
+    const pageSize = 6;
+    const keyword = req.query.keyword
+      ? { name: { $regex: req.query.keyword, $options: "i" } }
+      : {};
+
+    const count = await Product.countDocuments({ ...keyword });
+    const product = await Product.find({ ...keyword }).limit(pageSize);
+
+    res.json({
+      product,
+      page: 1,
+      pages: Math.ceil(count / pageSize),
+      hasMore: false,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      message: `Failed to fetchProducts: ${error.message}`,
+    });
+  }
+});
+export { addProduct, updateProductDetails, removeProduct, fetchProducts };

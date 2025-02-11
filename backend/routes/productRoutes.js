@@ -9,11 +9,15 @@ import {
   addProduct,
   updateProductDetails,
   removeProduct,
+  fetchProducts,
 } from "../controllers/productController.js";
 
 const router = express.Router();
 
-router.route("/").post(authenticate, authorizedAdmin, formidable(), addProduct);
+router
+  .route("/")
+  .get(fetchProducts)
+  .post(authenticate, authorizedAdmin, formidable(), addProduct);
 router
   .route("/:id")
   .put(authenticate, authorizedAdmin, formidable(), updateProductDetails)
