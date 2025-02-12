@@ -122,12 +122,54 @@ const fetchProductById = asyncHandler(async (req, res) => {
 
 const fetchAllProducts = asyncHandler(async (req, res) => {
   try {
-    const all = await Product.find({});
-    res.status(200).json(all);
+    const product = await Product.find({})
+      .populate("category")
+      .limit(12)
+      .sort({ createdAt: -1 });
+    res.status(200).json(product);
   } catch (error) {
     console.log(error.message);
     res.status(400);
     throw new Error("Failed to fetch all products");
+  }
+});
+
+const addProductReview = asyncHandler(async (req, res) => {
+  try {
+    const { rating, comment } = req.body;
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found!" });
+    }
+
+    const alreadyReviewed = await product.reviews.find(
+      (r) => r.user.toString() === req.user._id.toString()
+    );
+
+    if (alreadyReviewed) {
+      return res.status(400).json({ message: "Already reviewed" });
+    }
+
+    const review = {
+      name: req.user.username,
+      rating: Number(rating),
+      comment,
+      user: req.user._id,
+    };
+
+    product.reviews.push(review);
+    product.numReviews = product.reviews.length;
+
+    product.rating =
+      product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      product.reviews.length;
+
+    await product.save();
+    return res.status(201).json({ message: "Review added" });
+  } catch (error) {
+    console.log("Error while handling addProductReview:", error.message);
+    res.status(500).json({ message: error.message || "Internal server error" });
   }
 });
 
@@ -138,4 +180,5 @@ export {
   fetchProducts,
   fetchProductById,
   fetchAllProducts,
+  addProductReview,
 };
