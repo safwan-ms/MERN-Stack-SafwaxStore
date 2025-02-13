@@ -26,8 +26,8 @@ const addProduct = asyncHandler(async (req, res) => {
 
     res.status(201).json(product);
   } catch (error) {
-    console.log("Error occurred in addProduct ", error);
-    res.status(400).json("Failed to save product", error.message);
+    console.log("Error occurred in addProduct ", error.message);
+    res.status(400).json({ message: `Failed to add product ${error.message}` });
   }
 });
 
