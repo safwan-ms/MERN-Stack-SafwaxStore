@@ -82,6 +82,9 @@ const AllProducts = () => {
           </div>
         ))}
       </div>
+      <div>
+        <AdminMenu />
+      </div>
     </div>
   );
 };
