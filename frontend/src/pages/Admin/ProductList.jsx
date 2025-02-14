@@ -23,14 +23,49 @@ const ProductList = () => {
 
   const [uploadProductImage] = useUploadProductImageMutation();
   const [createProduct] = useCreateProductMutation();
-  const { data: categories, error, isLoading } = useFetchCategoriesQuery();
+  const { data: categories, isLoading } = useFetchCategoriesQuery();
 
-  useEffect(() => {
-    if (error) {
-      console.error("Error fetching categories:", error);
-      toast.error("Failed to fetch categories");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const productData = new FormData();
+
+      productData.append("image", image);
+      productData.append("name", name);
+      productData.append("description", description);
+      productData.append("price", price);
+      productData.append("category", category);
+      productData.append("quantity", quantity);
+      productData.append("brand", brand);
+      productData.append("countInStock", stock);
+
+      const { data } = await createProduct();
+      if (data.error) {
+        toast.error("Product create failed. Try again!");
+      } else {
+        toast.success(`${data.name} is created`);
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error("Product create failed. Try again!", error.message);
     }
-  }, [error]);
+  };
+
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData();
+
+    formData.append("image", e.target.files[0]);
+    try {
+      const res = await uploadProductImage(formData).unwrap();
+
+      toast.success(res.message);
+      setImage(res.image);
+      setImageUrl(res.image);
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
+  };
 
   if (isLoading)
     return (
@@ -66,7 +101,7 @@ const ProductList = () => {
                 accept="image/*"
                 className={!image ? "hidden" : "text-white"}
                 placeholder="Choose File"
-                // onChange={uploadFileHandler}
+                onChange={uploadFileHandler}
               />
             </label>
           </div>
@@ -188,7 +223,7 @@ const ProductList = () => {
                     onChange={(e) => setCategory(e.target.value)}
                     className=" p-1 2xl:p-4 2xl:text-xl  w-full border text-white rounded-lg text-sm sm:text-base md:text-lg cursor-pointer"
                   >
-                    {(categories || []).map((c) => (
+                    {categories?.map((c) => (
                       <option
                         className="bg-[#000000f1]"
                         key={c._id}
@@ -202,7 +237,7 @@ const ProductList = () => {
               </div>
             </div>
             <button
-              // onClick={handleSubmit}
+              onClick={handleSubmit}
               className="py-1 xl:py-3 cursor-pointer px-5 mt-2 text-base md:mt-5 rounded-lg md:text-lg font-bold bg-pink-600"
             >
               Submit
