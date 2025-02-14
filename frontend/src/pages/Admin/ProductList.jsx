@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   useCreateProductMutation,
@@ -41,7 +41,7 @@ const ProductList = () => {
       productData.append("countInStock", stock);
 
       const { data } = await createProduct(productData);
-      console.log(data);
+
       if (data.error) {
         toast.error("Product create failed. Try again!");
       } else {

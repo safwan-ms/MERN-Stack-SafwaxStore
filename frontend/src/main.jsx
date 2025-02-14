@@ -24,6 +24,8 @@ import AdminRoutes from "./pages/Admin/AdminRoutes.jsx";
 import UserList from "./pages/Admin/UserList.jsx";
 import CategoryList from "./pages/Admin/CategoryList.jsx";
 import ProductList from "./pages/Admin/ProductList.jsx";
+import ProductUpdate from "./pages/Admin/ProductUpdate.jsx";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
