@@ -8,6 +8,7 @@ import {
 } from "../../redux/api/productApiSlice.js";
 import { useFetchCategoriesQuery } from "../../redux/api/categoryApiSlice.js";
 import AdminMenu from "./AdminMenu.jsx";
+import { toast } from "react-toastify";
 
 const ProductUpdate = () => {
   const params = useParams();
@@ -37,29 +38,92 @@ const ProductUpdate = () => {
       setName(productData.name);
       setDescription(productData.description);
       setPrice(productData.price);
-      setCategory(productData.categories?._id);
+      setCategory(productData.category);
       setQuantity(productData.quantity);
       setBrand(productData.brand);
       setImage(productData.image);
+      setStock(productData.countInStock);
     }
   }, [productData]);
+
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData();
+
+    formData.append("image", e.target.files[0]);
+    try {
+      const res = uploadProductImage(formData).unwrap();
+      toast.success("Item added successfully");
+      setImage(res.image);
+    } catch (error) {
+      toast.error(`Upload Image failed. Try again!`, error.message);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const formData = new FormData();
+
+      formData.append("image", image);
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("price", price);
+      formData.append("category", category);
+      formData.append("quantity", quantity);
+      formData.append("brand", brand);
+      formData.append("countInStock", stock);
+
+      const { data } = await updateProduct({
+        productId: params._id,
+        formData,
+      });
+
+      if (data.error) {
+        toast.error(data.error);
+      } else {
+        toast.success(`Product successfully updated`);
+        navigate("/admin/allproductslist");
+      }
+    } catch (error) {
+      toast.error(`Upload Image failed: ${error.message}`);
+    }
+  };
+  console.log(params);
+  const handleDelete = async () => {
+    try {
+      let answer = window.confirm(
+        "Are you sure you want to delete this product?"
+      );
+
+      if (!answer) return;
+
+      const { data } = await deleteProduct(params._id);
+      console.log(data);
+      toast.success(`Product is deleted successfully`);
+      navigate("/admin/allproductslist");
+    } catch (error) {
+      console.log(error);
+      toast.error("Delete failed.Try again!");
+    }
+  };
   return (
     <div className="mt-13 md:mt-15 lg:mt-17 mx-5 sm:mx-6 md:mx-10 lg:mx-15">
       <div>
         <div>
           <div className="h-12 text-base sm:text-lg md:text-xl lg:text-2xl">
-            Create Product
+            Update Product
           </div>
 
-          {/* {imageUrl && (
+          {image && (
             <div className="text-center">
               <img
-                src={imageUrl}
+                src={image}
                 alt="product"
                 className="block mx-auto max-h-[200px]"
               />
             </div>
-          )} */}
+          )}
 
           <div className="mb-3 text-center border rounded-lg w-full p-4 sm:p-5 md:p-6 lg:p-7 xl:p-8 cursor-pointer">
             <label className="cursor-pointer text-sm sm:text-base md:text-lg">
@@ -69,7 +133,7 @@ const ProductUpdate = () => {
                 accept="image/*"
                 className={!image ? "hidden" : "text-white"}
                 placeholder="Choose File"
-                // onChange={uploadFileHandler}
+                onChange={uploadFileHandler}
               />
             </label>
           </div>
@@ -204,12 +268,20 @@ const ProductUpdate = () => {
                 </div>
               </div>
             </div>
-            <button
-              // onClick={handleSubmit}
-              className="py-1 xl:py-3 cursor-pointer px-5 mt-2 text-base md:mt-5 rounded-lg md:text-lg font-bold bg-pink-600"
-            >
-              Submit
-            </button>
+            <div className="flex flex-wrap gap-3 sm:gap-5">
+              <button
+                onClick={handleSubmit}
+                className="py-2 sm:px-8 cursor-pointer mt-2 text-sm sm:text-base md:text-lg font-bold bg-green-600 hover:bg-green-800 rounded-lg"
+              >
+                Update
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 sm:px-8 cursor-pointer mt-2 text-sm sm:text-base md:text-lg font-bold bg-pink-700 hover:bg-pink-900 rounded-lg"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
         <AdminMenu />

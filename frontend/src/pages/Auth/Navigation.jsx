@@ -9,7 +9,7 @@ import {
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoExitOutline } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../../redux/api/usersApiSlice.js";
@@ -84,66 +84,100 @@ const Navigation = () => {
         </button>
         {dropdownOpen && userInfo && (
           <ul
-            className={`absolute -right-10 lg:-right-6 mt-2 mr-14 space-y-2 text-white bg-gray-600 top-10 `}
+            className={`absolute -right-10 lg:-right-6 mt-2 mr-14 space-y-2 px-3 py-2 rounded-lg text-white bg-[#151515] top-10 `}
             onMouseLeave={toggleDropdown}
           >
             {userInfo.isAdmin && (
               <>
                 <li>
-                  <Link
+                  <NavLink
                     to="/admin/dashboard"
-                    className="block px-4 py-2  hover:bg-gray-100 hover:text-gray-600"
+                    className={({ isActive }) =>
+                      `block px-4 py-2 rounded ${
+                        isActive
+                          ? "text-green-400 font-bold"
+                          : "hover:bg-gray-700"
+                      }`
+                    }
                   >
                     Dashboard
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link
+                  <NavLink
                     to="/admin/productlist"
-                    className="block px-4 py-2 hover:bg-gray-100 hover:text-gray-600"
+                    className={({ isActive }) =>
+                      `block px-4 py-2 rounded ${
+                        isActive
+                          ? "text-green-400 font-bold"
+                          : "hover:bg-gray-700"
+                      }`
+                    }
                   >
                     Products
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link
+                  <NavLink
                     to="/admin/categorylist"
-                    className="block px-4 py-2 hover:bg-gray-100 hover:text-gray-600"
+                    className={({ isActive }) =>
+                      `block px-4 py-2 rounded ${
+                        isActive
+                          ? "text-green-400 font-bold"
+                          : "hover:bg-gray-700"
+                      }`
+                    }
                   >
                     Category
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link
+                  <NavLink
                     to="/admin/orderlist"
-                    className="block px-4 py-2 hover:bg-gray-100 hover:text-gray-600"
+                    className={({ isActive }) =>
+                      `block px-4 py-2 rounded ${
+                        isActive
+                          ? "text-green-400 font-bold"
+                          : "hover:bg-gray-700"
+                      }`
+                    }
                   >
                     Orders
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link
+                  <NavLink
                     to="/admin/userlist"
-                    className="block px-4 py-2 hover:bg-gray-100 hover:text-gray-600"
+                    className={({ isActive }) =>
+                      `block px-4 py-2 rounded ${
+                        isActive
+                          ? "text-green-400 font-bold"
+                          : "hover:bg-gray-700"
+                      }`
+                    }
                   >
                     Users
-                  </Link>
+                  </NavLink>
                 </li>
               </>
             )}
 
             <li>
-              <Link
+              <NavLink
                 to="/profile"
-                className="block px-4 py-2 hover:bg-gray-100 hover:text-gray-600"
+                className={({ isActive }) =>
+                  `block px-4 py-2 rounded ${
+                    isActive ? "text-green-400 font-bold" : "hover:bg-gray-700"
+                  }`
+                }
               >
                 Profile
-              </Link>
+              </NavLink>
             </li>
             <li>
               <button
                 onClick={logoutHandler}
-                className="block w-full px-4 py-2 text-left hover:bg-gray-100 hover:text-gray-600 cursor-pointer"
+                className="block w-full px-4 py-2 rounded-lg text-left hover:bg-gray-700 text-white cursor-pointer"
               >
                 Logout
               </button>
@@ -153,13 +187,13 @@ const Navigation = () => {
         {!userInfo && (
           <ul className="flex gap-1">
             <li>
-              <Link
+              <NavLink
                 to="/login"
                 className="flex items-center  transition-transform transform hover:translate-x-2"
               >
                 <AiOutlineLogin className="mr-2 mt-[4px]" size={26} />
                 <span className="hidden nav-item-name">LOGIN</span>
-              </Link>
+              </NavLink>
             </li>
           </ul>
         )}
