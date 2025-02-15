@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import {
   useUpdateProductMutation,
   useDeleteProductMutation,
@@ -7,7 +7,6 @@ import {
   useUploadProductImageMutation,
 } from "../../redux/api/productApiSlice.js";
 import { useFetchCategoriesQuery } from "../../redux/api/categoryApiSlice.js";
-import AdminMenu from "./AdminMenu.jsx";
 import { toast } from "react-toastify";
 
 const ProductUpdate = () => {
@@ -89,7 +88,7 @@ const ProductUpdate = () => {
       toast.error(`Upload Image failed: ${error.message}`);
     }
   };
-  console.log(params);
+
   const handleDelete = async () => {
     try {
       let answer = window.confirm(
@@ -99,8 +98,8 @@ const ProductUpdate = () => {
       if (!answer) return;
 
       const { data } = await deleteProduct(params._id);
-      console.log(data);
-      toast.success(`Product is deleted successfully`);
+
+      toast.success(`${data.product.name} is deleted successfully`);
       navigate("/admin/allproductslist");
     } catch (error) {
       console.log(error);
@@ -271,20 +270,19 @@ const ProductUpdate = () => {
             <div className="flex flex-wrap gap-3 sm:gap-5">
               <button
                 onClick={handleSubmit}
-                className="py-2 sm:px-8 cursor-pointer mt-2 text-sm sm:text-base md:text-lg font-bold bg-green-600 hover:bg-green-800 rounded-lg"
+                className="py-2 px-2 sm:px-8 cursor-pointer mt-2 text-sm sm:text-base md:text-lg font-bold bg-green-600 hover:bg-green-800 rounded-lg"
               >
                 Update
               </button>
               <button
                 onClick={handleDelete}
-                className="px-4 py-2 sm:px-8 cursor-pointer mt-2 text-sm sm:text-base md:text-lg font-bold bg-pink-700 hover:bg-pink-900 rounded-lg"
+                className="px-2 py-2 sm:px-8 cursor-pointer mt-2 text-sm sm:text-base md:text-lg font-bold bg-pink-700 hover:bg-pink-900 rounded-lg"
               >
                 Delete
               </button>
             </div>
           </div>
         </div>
-        <AdminMenu />
       </div>
     </div>
   );

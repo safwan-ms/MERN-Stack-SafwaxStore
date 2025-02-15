@@ -1,7 +1,6 @@
 import { Link } from "react-router";
 import moment from "moment";
 import { useAllProductsQuery } from "../../redux/api/productApiSlice.js";
-import AdminMenu from "./AdminMenu";
 import Loader from "../../components/Loader";
 
 const AllProducts = () => {
@@ -42,8 +41,8 @@ const AllProducts = () => {
             />
             <div className="py-6 px-3 md:px-6 flex flex-col justify-between w-full text-white">
               <div className="flex justify-between items-center">
-                <h5 className="text-lg md:text-xl font-semibold">
-                  {product?.name}
+                <h5 className="text-md md:text-lg font-semibold">
+                  {product?.name.substring(0, 30)}...
                 </h5>
                 <p className="text-gray-400 text-xs md:text-sm">
                   {moment(product.createdAt).format("MMMM Do YYYY")}
@@ -76,14 +75,13 @@ const AllProducts = () => {
                     />
                   </svg>
                 </Link>
-                <p className="md:text-lg font-semibold">${product?.price}</p>
+                <p className="md:text-lg font-semibold">
+                  ₹{new Intl.NumberFormat("en-IN").format(product?.price)}
+                </p>
               </div>
             </div>
           </div>
         ))}
-      </div>
-      <div>
-        <AdminMenu />
       </div>
     </div>
   );

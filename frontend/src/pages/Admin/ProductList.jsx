@@ -7,7 +7,6 @@ import {
 import { useFetchCategoriesQuery } from "../../redux/api/categoryApiSlice.js";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader.jsx";
-import AdminMenu from "./AdminMenu.jsx";
 
 const ProductList = () => {
   const [image, setImage] = useState("");
@@ -41,6 +40,10 @@ const ProductList = () => {
       productData.append("brand", brand);
       productData.append("countInStock", stock);
 
+      if (!name || !description || !price || !category || !quantity || !brand) {
+        return toast.error("Please fill all required fields.");
+      }
+
       const { data } = await createProduct(productData);
 
       if (data.error) {
@@ -50,7 +53,7 @@ const ProductList = () => {
         navigate("/");
       }
     } catch (error) {
-      toast.error("Product create failed. Try again!", error.message);
+      toast.error(`Product create failed. Try again! ${error.message}`);
     }
   };
 
@@ -79,7 +82,6 @@ const ProductList = () => {
   return (
     <div className="mt-13 md:mt-15 lg:mt-17 mx-5 sm:mx-6 md:mx-10 lg:mx-15">
       <div>
-        <AdminMenu />
         <div>
           <div className="h-12 text-base sm:text-lg md:text-xl lg:text-2xl">
             Create Product

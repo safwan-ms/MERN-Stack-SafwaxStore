@@ -79,7 +79,9 @@ const Profile = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block text-white mb-1 md:mb-2">Password</label>
+              <label className="block text-white mb-1 md:mb-2">
+                Change Password
+              </label>
               <input
                 type="password"
                 placeholder="Enter password"
