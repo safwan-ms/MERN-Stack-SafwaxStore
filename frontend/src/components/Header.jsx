@@ -1,3 +1,4 @@
+import ProductCarousel from "../pages/Products/ProductCarousel";
 import SmallProduct from "../pages/Products/SmallProduct";
 import { useGetTopProductsQuery } from "../redux/api/productApiSlice";
 import Error from "./Error";
@@ -16,9 +17,9 @@ const Header = () => {
 
   return (
     <>
-      <div className="flex flex-around">
-        <div>
-          <div>
+      <div className="flex justify-around">
+        <div className="xl:block lg:hidden md:hidden:sm:hidden">
+          <div className="grid grid-cols-2">
             {data.map((product) => (
               <div key={product._id}>
                 <SmallProduct product={product} />
@@ -26,6 +27,8 @@ const Header = () => {
             ))}
           </div>
         </div>
+
+        <ProductCarousel />
       </div>
     </>
   );
