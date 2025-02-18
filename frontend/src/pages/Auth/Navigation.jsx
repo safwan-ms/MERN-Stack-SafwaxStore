@@ -38,7 +38,7 @@ const Navigation = () => {
   return (
     <div>
       {/* Navbar */}
-      <nav className="flex justify-between items-center px-4 lg:px-10 fixed bg-gradient-to-r from-pink-900 to-pink-500 w-full py-3 lg:py-4 z-50">
+      <nav className="flex justify-between items-center px-4 lg:px-10 fixed bg-gradient-to-r from-pink-900 py-2 to-pink-500 w-full z-50">
         <button className="flex items-center text-base md:text-lg lg:text-xl gap-3 text-white">
           <GiHamburgerMenu
             onClick={() => setShowSidebar(!showSidebar)}

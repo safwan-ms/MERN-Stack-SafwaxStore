@@ -34,7 +34,7 @@ const NavMenu = ({ logoutHandler }) => {
     <div>
       <button
         onClick={toggleMenu}
-        className="flex items-center text-gray-800 focus:outline-none"
+        className="flex items-center hover:bg-gradient-to-r from-pink-400 cursor-pointer to-pink-800  p-3 rounded-2xl md:p-4 text-gray-800 focus:outline-none"
       >
         {userInfo ? (
           <span className="text-white cursor-pointer text-xs lg:text-base">
