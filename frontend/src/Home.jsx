@@ -3,11 +3,12 @@ import { useGetProductsQuery } from "./redux/api/productApiSlice";
 import Loader from "./components/Loader";
 import Header from "./components/Header";
 import Message from "./components/Message.jsx";
+import Product from "./pages/Products/Product.jsx";
 
 const Home = () => {
   const { keyword } = useParams();
   const { data, isLoading, isError } = useGetProductsQuery({ keyword });
-
+  console.log(data);
   return (
     <>
       {!keyword ? <Header /> : null}
@@ -27,6 +28,16 @@ const Home = () => {
             >
               Shop
             </Link>
+          </div>
+
+          <div>
+            <div>
+              {data?.product?.map((product) => (
+                <div key={product._id} className="grid grid-cols-3">
+                  <Product product={product} />
+                </div>
+              ))}
+            </div>
           </div>
         </>
       )}

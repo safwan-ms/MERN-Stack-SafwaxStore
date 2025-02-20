@@ -13,7 +13,6 @@ import {
 } from "react-icons/fa";
 const ProductCarousel = () => {
   const { data: products, isLoading, error } = useGetNewProductsQuery();
-  console.log(products);
   const settings = {
     dots: false,
     infinite: true,
@@ -46,20 +45,36 @@ const ProductCarousel = () => {
               quantity,
               countInStock,
             }) => (
-              <div key={_id} className="w-full">
+              <div key={_id} className="border">
                 <img
                   src={image}
                   alt={name}
                   className="w-full h-[400px] md:h-[400px] rounded-lg object-cover "
                 />
+
                 <div className="mt-4 flex justify-between">
-                  <div className="one">
-                    <h2>{name}</h2>
+                  <div className="one w-2/3">
+                    <h2 className="">{name}</h2>
                     <p>₹{new Intl.NumberFormat("en-IN").format(price)}</p>
                     <br />
-                    <p className="text-xs md:text-base">
+                    <p className="text-xs md:text-sm">
                       {description.substring(0, 170)}...
                     </p>
+                  </div>
+
+                  <div className="flex justify-between w-1/3">
+                    <div className="one">
+                      <h1 className="mb-6">
+                        <FaStore />
+                      </h1>
+                      <h1 className="mb-6">
+                        <FaStore /> Added {moment(createAt).fromNow()}
+                      </h1>
+                      <h1 className="mb-6">
+                        <FaStore />
+                        Brand: {brand}
+                      </h1>
+                    </div>
                   </div>
                 </div>
               </div>
