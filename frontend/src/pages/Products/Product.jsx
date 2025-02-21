@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 
 const Product = ({ product }) => {
+  console.log(product);
   return (
-    <div className="mx-10 p-3 grid ">
+    <div className="w-full border p-3 ">
       <div>
         <img
-          className="rounded w-200px"
+          className="rounded w-[300px] h-[200px] object-cover"
           src={product.image}
           alt={product.name}
         />

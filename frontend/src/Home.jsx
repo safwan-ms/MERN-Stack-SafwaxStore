@@ -12,8 +12,9 @@ const Home = () => {
   return (
     <>
       {!keyword ? <Header /> : null}
+
       {isLoading ? (
-        <Loader />
+        <Loader className="flex w-screen h-screen justify-center items-center" />
       ) : isError ? (
         <Message variant="danger">
           {isError?.data.message || isError.message}
@@ -30,14 +31,12 @@ const Home = () => {
             </Link>
           </div>
 
-          <div>
-            <div>
-              {data?.product?.map((product) => (
-                <div key={product._id} className="grid grid-cols-3">
-                  <Product product={product} />
-                </div>
-              ))}
-            </div>
+          <div className="flex flex-wrap justify-start mx-5 items-center border gap-4">
+            {data?.product?.map((product) => (
+              <div key={product._id} className="w-[300px]">
+                <Product product={product} />
+              </div>
+            ))}
           </div>
         </>
       )}
