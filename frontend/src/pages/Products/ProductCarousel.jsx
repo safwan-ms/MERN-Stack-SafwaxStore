@@ -24,7 +24,7 @@ const ProductCarousel = () => {
     autoPlaySpeed: 3000,
   };
   return (
-    <div className="mt-4 w-full">
+    <div className="mt-4  overflow-hidden lg:w-full">
       {isLoading ? null : error ? (
         <Message variant={"danger"}>
           {error?.data?.message || error.message}
@@ -79,7 +79,7 @@ const ProductCarousel = () => {
                       </h1>
                     </div>
 
-                    <div className="two">
+                    <div className="two hidden">
                       <h1 className="flex items-center w-[9rem] mb-6 text-xs">
                         <FaStar className="text-white mr-2" /> Ratings:{" "}
                         {Math.round(rating)}
