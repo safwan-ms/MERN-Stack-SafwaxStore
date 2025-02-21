@@ -33,14 +33,14 @@ const Header = () => {
       {/* For Laptop: Side-by-Side Layout */}
       <div className="hidden lg:flex lg:space-x-6 mt-6">
         {/* Small Products Section */}
-        <div className="w-1/2 grid grid-cols-2 gap-6">
+        <div className="w-[45%] grid grid-cols-2 gap-6">
           {data.map((product) => (
             <SmallProduct key={product._id} product={product} />
           ))}
         </div>
 
         {/* Product Carousel */}
-        <div className="flex justify-center w-1/2">
+        <div className="flex justify-center w-[55%]">
           <ProductCarousel />
         </div>
       </div>
