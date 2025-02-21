@@ -31,11 +31,9 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="flex flex-wrap justify-start mx-5 items-center border gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 border p-4">
             {data?.product?.map((product) => (
-              <div key={product._id} className="w-[300px]">
-                <Product product={product} />
-              </div>
+              <Product key={product._id} product={product} />
             ))}
           </div>
         </>

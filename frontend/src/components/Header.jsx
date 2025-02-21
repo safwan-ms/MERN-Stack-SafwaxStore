@@ -17,7 +17,7 @@ const Header = () => {
   if (error) return <Error />;
 
   return (
-    <div className="mx-7 mt-20">
+    <div className="mt-20">
       {/* For Mobile: Carousel on Top */}
       <div className="w-full lg:hidden mb-6">
         <ProductCarousel />
@@ -40,7 +40,7 @@ const Header = () => {
         </div>
 
         {/* Product Carousel */}
-        <div className="flex justify-center w-[55%]">
+        <div className="flex justify-center w-[50%]">
           <ProductCarousel />
         </div>
       </div>

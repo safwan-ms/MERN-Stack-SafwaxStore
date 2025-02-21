@@ -30,7 +30,7 @@ const ProductCarousel = () => {
           {error?.data?.message || error.message}
         </Message>
       ) : (
-        <Slider {...settings} className="lg:w-[ lg:w-full ">
+        <Slider {...settings} className=" lg:w-full ">
           {products.map(
             ({
               image,
