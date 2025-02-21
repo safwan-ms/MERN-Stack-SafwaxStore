@@ -10,5 +10,9 @@ const favoriteSlice = createSlice({
         state.push(action.payload);
       }
     },
+    removeFromFavorites: (state, action) => {
+      //Remove the product with the matching ID
+      return state.filter((product) => product._id !== action.payload._id);
+    },
   },
 });
