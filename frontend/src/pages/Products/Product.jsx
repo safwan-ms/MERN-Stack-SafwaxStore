@@ -6,17 +6,17 @@ const Product = ({ product }) => {
       <HeartIcon product={product} />
       <Link to={`/product/${product._id}`}>
         <img
-          className="w-full h-[180px] sm:h-[200px] object-cover"
+          className="w-full h-[150px] sm:h-[200px] object-cover"
           src={product.image}
           alt={product.name}
         />
 
-        <div className="p-4 ">
+        <div className=" px-2 py-3 ">
           <div className="flex justify-between items-center ]">
-            <h2 className="truncate text-sm sm:text-lg font-semibold">
+            <h2 className="truncate text-xs sm:text-lg font-semibold">
               {product.name}
             </h2>
-            <p className="bg-pink-100 text-pink-800 text-xs sm:text-sm font-medium px-1 sm:px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">
+            <p className="bg-pink-100 text-pink-800 text-[10px] sm:text-xs font-medium px-1 sm:px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">
               ₹{new Intl.NumberFormat("en-IN").format(product.price)}
             </p>
           </div>
