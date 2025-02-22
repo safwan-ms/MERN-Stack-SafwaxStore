@@ -24,7 +24,7 @@ const Header = () => {
       </div>
 
       {/* For Mobile: Small Products Below */}
-      <div className="grid lg:hidden grid-cols-2 gap-6 border border-red-500">
+      <div className="grid lg:hidden grid-cols-2 gap-6 ">
         {data.map((product) => (
           <SmallProduct key={product._id} product={product} />
         ))}

@@ -16,6 +16,7 @@ import { useLogoutMutation } from "../../redux/api/usersApiSlice.js";
 import { logout } from "../../redux/features/Auth/authSlice.js";
 import "./Navigation.css";
 import NavMenu from "./NavMenu.jsx";
+import FavoritesCount from "../Products/FavoritesCount.jsx";
 
 const Navigation = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -110,9 +111,9 @@ const Navigation = () => {
 
             <NavLink
               to="/favorite"
-              className="hover-effect  flex items-center gap-3  py-3 hover:text-pink-400 hover:translate-x-2 "
+              className="hover-effect relative flex items-center gap-3  py-3 hover:text-pink-400 hover:translate-x-2 "
             >
-              <FaHeart size={26} /> <span>FAVORITE</span>
+              <FaHeart size={26} /> <span>FAVORITE</span> <FavoritesCount />
             </NavLink>
           </div>
           <div>

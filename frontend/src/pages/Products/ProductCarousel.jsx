@@ -24,7 +24,7 @@ const ProductCarousel = () => {
     autoPlaySpeed: 3000,
   };
   return (
-    <div className="mt-4  overflow-hidden lg:w-full">
+    <div className="mt-4 overflow-hidden lg:w-full">
       {isLoading ? null : error ? (
         <Message variant={"danger"}>
           {error?.data?.message || error.message}
@@ -54,10 +54,10 @@ const ProductCarousel = () => {
 
                 <div className="mt-4 flex justify-between p-2">
                   <div className="one w-2/3">
-                    <h2 className="">{name}</h2>
+                    <h2 className="truncate">{name}</h2>
                     <p>₹{new Intl.NumberFormat("en-IN").format(price)}</p>
                     <br />
-                    <p className="text-[8px] md:text-sm">
+                    <p className="text-xs lg:text-sm md:text-sm">
                       {description.substring(0, 170)}...
                     </p>
                   </div>
@@ -79,8 +79,8 @@ const ProductCarousel = () => {
                       </h1>
                     </div>
 
-                    <div className="two hidden">
-                      <h1 className="flex items-center w-[9rem] mb-6 text-xs">
+                    <div className="two hidden lg:block">
+                      <h1 className="flex  items-center w-[9rem] mb-6 text-xs">
                         <FaStar className="text-white mr-2" /> Ratings:{" "}
                         {Math.round(rating)}
                       </h1>
