@@ -18,6 +18,7 @@ import {
 } from "react-icons/fa";
 import HeartIcon from "./HeartIcon";
 import moment from "moment";
+import Ratings from "./Ratings.jsx";
 
 const ProductDetails = () => {
   const { id: productId } = useParams();
@@ -75,12 +76,12 @@ const ProductDetails = () => {
                   {product.name}
                 </h1>
                 <p className="text-gray-300">{product.description}</p>
-                <p className="text-2xl text-pink-600 font-bold">
-                  ₹{Intl.NumberFormat().format(product.price)}
+                <p className="text-2xl font-extrabold">
+                  ₹ {Intl.NumberFormat().format(product.price)}
                 </p>
 
                 {/* Brand & Other Info */}
-                <div className="flex items-center justify-between w-[23rem] border ">
+                <div className="flex items-center justify-between w-[23rem] mt-6">
                   <div className="one">
                     <h1 className="flex items-center mb-6">
                       <FaStore className="text-white mr-2" />
@@ -110,6 +111,13 @@ const ProductDetails = () => {
                       Quantity: {product.quantity}
                     </h1>
                   </div>
+                </div>
+
+                <div className="flex justify-between flex-wrap">
+                  <Ratings
+                    value={product.rating}
+                    text={`${product.numReviews} reviews`}
+                  />
                 </div>
               </div>
             </div>
