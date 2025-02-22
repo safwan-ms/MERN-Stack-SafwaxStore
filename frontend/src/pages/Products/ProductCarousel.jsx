@@ -24,13 +24,13 @@ const ProductCarousel = () => {
     autoPlaySpeed: 3000,
   };
   return (
-    <div className="mt-4 overflow-hidden lg:w-full">
+    <div className="overflow-hidden mx-1 lg:w-full">
       {isLoading ? null : error ? (
         <Message variant={"danger"}>
           {error?.data?.message || error.message}
         </Message>
       ) : (
-        <Slider {...settings} className=" lg:w-full ">
+        <Slider {...settings} className="lg:w-full mx-2 ">
           {products.map(
             ({
               image,
@@ -49,7 +49,7 @@ const ProductCarousel = () => {
                 <img
                   src={image}
                   alt={name}
-                  className="w-full h-[400px] md:h-[400px] rounded-lg object-cover "
+                  className="w-full h-[300px] sm:h-[400px] md:h-[450px] rounded-lg object-cover "
                 />
 
                 <div className="mt-4 flex justify-between p-2">

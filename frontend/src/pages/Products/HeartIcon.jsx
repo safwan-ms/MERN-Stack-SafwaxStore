@@ -35,7 +35,7 @@ const HeartIcon = ({ product }) => {
   };
   return (
     <div
-      className="absolute p-1 top-3 right-3 cursor-pointer"
+      className="absolute p-2 rounded-full bg-gray-800 top-2 right-2 cursor-pointer"
       onClick={toggleFavorites}
     >
       {isFavorites ? (
