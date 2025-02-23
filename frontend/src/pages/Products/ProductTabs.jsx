@@ -66,7 +66,7 @@ const ProductTabs = ({
                     required
                     value={rating}
                     onClick={(e) => setRating(e.target.value)}
-                    className="p-2 border rounded-lg bg-[#151515]"
+                    className="p-2 w-full border rounded-lg bg-[#151515]"
                   >
                     <option value="">Select</option>
                     <option value="1">Inferior</option>

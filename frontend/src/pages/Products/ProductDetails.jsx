@@ -34,7 +34,6 @@ const ProductDetails = () => {
     refetch,
     error,
   } = useGetProductDetailsQuery(productId);
-  console.log(product);
   const { userInfo } = useSelector((state) => state.auth);
 
   const [createReview, { isLoading: loadingProductReview }] =
@@ -57,7 +56,7 @@ const ProductDetails = () => {
         <Message>{error?.data?.message || error.message}</Message>
       ) : (
         <>
-          <div className="relative p-4">
+          <div className="relative">
             <div className="absolute top-8 lg:top-4 right-8 ">
               <HeartIcon product={product} />
             </div>
@@ -82,7 +81,7 @@ const ProductDetails = () => {
                 </p>
 
                 {/* Brand & Other Info */}
-                <div className="flex flex-col sm:flex-row  md:items-center sm:justify-between w-[23rem] mt-6">
+                <div className="flex flex-col sm:flex-row  md:items-center sm:justify-between sm:w-[2rem] mt-6">
                   <div className="one">
                     <h1 className="flex items-center mb-6">
                       <FaStore className="text-white mr-2" />
@@ -152,7 +151,7 @@ const ProductDetails = () => {
               </div>
             </div>
             <div className="mt-[1rem] mx-5 overflow-hidden md:mt-[2rem] xl:mt-[3rem] container flex flex-wrap items-start justify-between ">
-              <ProductTabs
+              {/* <ProductTabs
                 loadingProductReview={loadingProductReview}
                 userInfo={userInfo}
                 // submitHandler={submitHandler}
@@ -160,7 +159,7 @@ const ProductDetails = () => {
                 setRating={setRating}
                 comment={setComment}
                 product={product}
-              />
+              /> */}
             </div>
           </div>
         </>
