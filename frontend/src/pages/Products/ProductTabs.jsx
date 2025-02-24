@@ -5,6 +5,8 @@ import { useGetTopProductsQuery } from "../../redux/api/productApiSlice.js";
 import SmallProduct from "./SmallProduct.jsx";
 import Loader from "../../components/Loader";
 import { useState } from "react";
+import "../../index.css";
+import { toast } from "react-toastify";
 
 const ProductTabs = ({
   loadingProductReview,
@@ -12,6 +14,7 @@ const ProductTabs = ({
   rating,
   setRating,
   comment,
+  setComment,
   product,
   submitHandler,
 }) => {
@@ -21,19 +24,23 @@ const ProductTabs = ({
   if (isLoading) {
     return <Loader />;
   }
+  const handleTabClick = (tabNumber) => {
+    setActiveTab(tabNumber);
+  };
+
   return (
-    <div className="flex justify-between border w-[40rem]">
-      <section className="mr-2 w-1/2">
+    <div className="flex justify-between border lg:w-full lg:mx-40">
+      <section className="mr-2 lg:w-1/4">
         <div
-          //  onClick={handleTabClick(1)}
+          onClick={() => handleTabClick(1)}
           className={`${
-            activeTab === 1 ? "font-bold" : ""
+            activeTab === 1 ? "bold" : ""
           } flex-1  p-4 cursor-pointer`}
         >
           Write your own Review
         </div>
         <div
-          //  onClick={handleTabClick(2)}
+          onClick={() => handleTabClick(2)}
           className={`${
             activeTab === 2 ? "font-bold" : ""
           } flex-1  p-4 cursor-pointer`}
@@ -41,7 +48,7 @@ const ProductTabs = ({
           All Reviews
         </div>
         <div
-          //  onClick={handleTabClick(3)}
+          onClick={() => handleTabClick(3)}
           className={`${
             activeTab === 3 ? "font-bold" : ""
           } flex-1  p-4 cursor-pointer`}
@@ -51,7 +58,7 @@ const ProductTabs = ({
       </section>
 
       {/* Second Part  */}
-      <section className="border w-1/2">
+      <section className="border lg:w-3/4">
         {activeTab === 1 && (
           <div className="mt-4 ">
             {userInfo ? (
@@ -76,6 +83,25 @@ const ProductTabs = ({
                     <option value="5">Exceptional</option>
                   </select>
                 </div>
+
+                <div className="my-2">
+                  <label className="block text-xl mb-2">Comment</label>
+                  <textarea
+                    id="comment"
+                    rows="3"
+                    required
+                    value={comment}
+                    className="p-2 border rounded-lg xl:w-[40rem]"
+                    onChange={(e) => setComment(e.target.value)}
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  disabled={loadingProductReview}
+                  className="bg-pink-600 py-2 px-4 rounded-lg"
+                >
+                  Submit
+                </button>
               </form>
             ) : (
               <p>

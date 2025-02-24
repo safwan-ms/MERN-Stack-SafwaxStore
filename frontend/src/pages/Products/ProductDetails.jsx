@@ -38,7 +38,19 @@ const ProductDetails = () => {
 
   const [createReview, { isLoading: loadingProductReview }] =
     useCreateReviewMutation();
-
+  const submitHandler = async (e) => {
+    try {
+      await createReview({
+        productId,
+        rating,
+        comment,
+      }).unwrap();
+      refetch();
+      toast.success("Review created successfully");
+    } catch (error) {
+      toast.error(error?.data?.message || error.message);
+    }
+  };
   return (
     <>
       <div className="mt-15 sm:mt-16 md:mt-20">
@@ -76,12 +88,12 @@ const ProductDetails = () => {
                   {product.name}
                 </h1>
                 <p className="text-gray-300">{product.description}</p>
-                <p className="text-2xl font-extrabold">
+                <p className="text-2xl font-bold">
                   ₹ {Intl.NumberFormat().format(product.price)}
                 </p>
 
                 {/* Brand & Other Info */}
-                <div className="flex flex-col sm:flex-row  md:items-center sm:justify-between sm:w-[2rem] mt-6">
+                <div className="flex flex-col sm:flex-row  md:items-center sm:justify-between sm:w-[23rem] mt-6">
                   <div className="one">
                     <h1 className="flex items-center mb-6">
                       <FaStore className="text-white mr-2" />
@@ -151,15 +163,16 @@ const ProductDetails = () => {
               </div>
             </div>
             <div className="mt-[1rem] mx-5 overflow-hidden md:mt-[2rem] xl:mt-[3rem] container flex flex-wrap items-start justify-between ">
-              {/* <ProductTabs
+              <ProductTabs
                 loadingProductReview={loadingProductReview}
                 userInfo={userInfo}
-                // submitHandler={submitHandler}
+                submitHandler={submitHandler}
                 rating={rating}
                 setRating={setRating}
-                comment={setComment}
+                setComment={setComment}
+                comment={comment}
                 product={product}
-              /> */}
+              />
             </div>
           </div>
         </>

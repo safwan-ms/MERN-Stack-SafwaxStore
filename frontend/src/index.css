@@ -19,7 +19,9 @@
 ::-webkit-scrollbar-track {
   background-color: #222; /* Dark track */
 }
-
+.bold {
+  font: bold;
+}
 /* * {
   outline: 1px solid red;
 } */
