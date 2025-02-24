@@ -72,7 +72,7 @@ const ProductTabs = ({
                     id="rating"
                     required
                     value={rating}
-                    onClick={(e) => setRating(e.target.value)}
+                    onChange={(e) => setRating(e.target.value)}
                     className="p-2 w-full border rounded-lg bg-[#151515]"
                   >
                     <option value="">Select</option>

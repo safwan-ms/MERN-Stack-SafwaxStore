@@ -39,6 +39,7 @@ const ProductDetails = () => {
   const [createReview, { isLoading: loadingProductReview }] =
     useCreateReviewMutation();
   const submitHandler = async (e) => {
+    e.preventDefault();
     try {
       await createReview({
         productId,
