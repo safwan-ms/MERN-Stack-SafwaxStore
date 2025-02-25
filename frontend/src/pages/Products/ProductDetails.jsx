@@ -126,7 +126,7 @@ const ProductDetails = () => {
                   </div>
                 </div>
 
-                <div className="flex justify-between flex-wrap">
+                <div className="flex  flex-wrap">
                   <Ratings
                     value={product.rating}
                     text={`${product.numReviews} reviews`}
@@ -163,7 +163,7 @@ const ProductDetails = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-[1rem] mx-5 overflow-hidden md:mt-[2rem] xl:mt-[3rem] container flex flex-wrap items-start justify-between ">
+            <div className="mt-[1rem]  overflow-hidden md:mt-[2rem] xl:mt-[3rem] container flex items-start justify-between ">
               <ProductTabs
                 loadingProductReview={loadingProductReview}
                 userInfo={userInfo}
