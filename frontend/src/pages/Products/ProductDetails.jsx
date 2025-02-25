@@ -88,7 +88,7 @@ const ProductDetails = () => {
                 <h1 className="text-2xl font-bold text-white">
                   {product.name}
                 </h1>
-                <p className="text-gray-300">{product.description}</p>
+                <p className="text-gray-400">{product.description}</p>
                 <p className="text-2xl font-bold">
                   ₹ {Intl.NumberFormat().format(product.price)}
                 </p>
@@ -126,7 +126,7 @@ const ProductDetails = () => {
                   </div>
                 </div>
 
-                <div className="flex gap-5 flex-wrap">
+                <div className="flex flex-wrap">
                   <Ratings
                     value={product.rating}
                     text={`${product.numReviews} reviews`}
@@ -136,7 +136,7 @@ const ProductDetails = () => {
                       <select
                         value={qty}
                         onChange={(e) => setQty(e.target.value)}
-                        className="p-1 md:p-2 w-[3rem] md:w-[5rem] border  rounded-lg "
+                        className="p-1 md:p-2 w-[3rem] md:w-[5rem] border rounded-lg "
                       >
                         {[...Array(product.countInStock)].map((_, x) => (
                           <option
@@ -156,14 +156,14 @@ const ProductDetails = () => {
                   <button
                     // onClick={addToCartHandler}
                     disabled={product.countInStock === 0}
-                    className="bg-pink-600 text-white py-2 px-4 rounded-lg md:mt-0"
+                    className="bg-pink-600 text-white py-1 px-2 md:py-2 md:px-4 rounded-lg md:mt-0"
                   >
                     Add To Cart
                   </button>
                 </div>
               </div>
             </div>
-            <div className="mr-[3rem]  overflow-hidden md:mt-[2rem] xl:mt-[3rem] container flex items-start justify-between ">
+            <div className="overflow-hidden md:mt-[2rem] container flex items-start justify-between ">
               <ProductTabs
                 loadingProductReview={loadingProductReview}
                 userInfo={userInfo}

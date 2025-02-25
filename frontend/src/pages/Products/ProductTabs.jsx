@@ -30,12 +30,12 @@ const ProductTabs = ({
 
   return (
     <div className="flex flex-col md:flex-row m-4 w-full overflow-hidden">
-      <section className="mr-2 flex md:flex-col w-full md:w-auto h-[12rem] lg:w-[20rem]">
+      <section className="mr-2 flex md:flex-col w-full md:w-auto h-[3rem] md:h-[12rem] lg:w-[20rem]">
         <div
           onClick={() => handleTabClick(1)}
           className={`${
             activeTab === 1 ? "text-lime-400" : ""
-          } flex-1 p-2 md:p-4 text-sm cursor-pointer text-center md:text-left`}
+          } flex-1 p-1 sm:p-2 md:p-4 text-xs md:text-sm cursor-pointer text-center md:text-left`}
         >
           Write your own Review
         </div>
@@ -43,7 +43,7 @@ const ProductTabs = ({
           onClick={() => handleTabClick(2)}
           className={`${
             activeTab === 2 ? "text-lime-400" : ""
-          } flex-1 p-2 md:p-4 text-sm cursor-pointer text-center md:text-left`}
+          } flex-1 p-1 md:p-4 md:text-sm text-xs cursor-pointer text-center md:text-left`}
         >
           All Reviews
         </div>
@@ -51,19 +51,19 @@ const ProductTabs = ({
           onClick={() => handleTabClick(3)}
           className={`${
             activeTab === 3 ? "text-lime-400" : ""
-          } flex-1 p-2 md:p-4 text-sm cursor-pointer text-center md:text-left`}
+          } flex-1 p-1 md:p-4 md:text-sm text-xs cursor-pointer text-center md:text-left`}
         >
           Related Products
         </div>
       </section>
 
-      <section className={`${activeTab === 1 ? "w-screen" : ""} overflow-auto`}>
+      <section className={`${activeTab === 1 ? "w-full" : ""} overflow-auto`}>
         {activeTab === 1 && (
           <div className="mt-4">
             {userInfo ? (
-              <form onSubmit={submitHandler} className="space-y-4 ">
+              <form onSubmit={submitHandler} className="space-y-4 border">
                 <div>
-                  <label htmlFor="rating" className="block text-sm mb-2">
+                  <label htmlFor="rating" className="block text-sm mb-2 ">
                     Ratings
                   </label>
                   <select
@@ -71,7 +71,7 @@ const ProductTabs = ({
                     required
                     value={rating}
                     onChange={(e) => setRating(e.target.value)}
-                    className="p-2 w-[500px] border rounded-lg bg-[#151515]"
+                    className="p-2 w-[280px] lg:w-[500px] border rounded-lg bg-[#151515]"
                   >
                     <option value="">Select</option>
                     <option value="1">Inferior</option>
@@ -89,7 +89,7 @@ const ProductTabs = ({
                     rows="3"
                     required
                     value={comment}
-                    className="p-2  w-[500px] border text-sm rounded-lg"
+                    className="p-2 w-[250px] lg:w-[500px] border text-sm rounded-lg"
                     onChange={(e) => setComment(e.target.value)}
                   ></textarea>
                 </div>
@@ -114,20 +114,26 @@ const ProductTabs = ({
         )}
       </section>
 
-      <section className={`${activeTab === 2 ? "w-screen" : ""} overflow-auto`}>
+      <section className={`${activeTab === 2 ? "w-full" : ""} overflow-auto`}>
         {activeTab === 2 && (
           <>
             {product.reviews.length === 0 ? (
               <p className="text-center">No Reviews</p>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-4 ">
                 {product.reviews.map((review) => (
-                  <div key={review._id} className="rounded-lg">
-                    <strong>{review.name}</strong>
-                    <p className="text-xs text-gray-500">
-                      {review.createdAt.substring(0, 10)}
-                    </p>
-                    <p className="mt-2 mb-2">{review.comment}</p>
+                  <div
+                    key={review._id}
+                    className="rounded-lg border bg-[#151515] p-3 px-5"
+                  >
+                    <div className="flex justify-between">
+                      <strong>{review.name}</strong>
+                      <p className="text-xs text-gray-500">
+                        {review.createdAt.substring(0, 10)}
+                      </p>
+                    </div>
+
+                    <p className="mt-2 mb-2 text-xs">{review.comment}</p>
                     <Ratings value={review.rating} />
                   </div>
                 ))}
