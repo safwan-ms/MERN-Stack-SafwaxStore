@@ -92,7 +92,6 @@ const ProductDetails = () => {
                 <p className="text-2xl font-bold">
                   ₹ {Intl.NumberFormat().format(product.price)}
                 </p>
-
                 {/* Brand & Other Info */}
                 <div className="flex flex-col sm:flex-row  md:items-center sm:justify-between sm:w-[23rem] mt-6">
                   <div className="one">
@@ -151,7 +150,6 @@ const ProductDetails = () => {
                     </div>
                   )}
                 </div>
-
                 <div>
                   <button
                     // onClick={addToCartHandler}
