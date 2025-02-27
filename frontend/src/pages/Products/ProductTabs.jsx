@@ -61,7 +61,7 @@ const ProductTabs = ({
         {activeTab === 1 && (
           <div className="mt-4">
             {userInfo ? (
-              <form onSubmit={submitHandler} className="space-y-4 border">
+              <form onSubmit={submitHandler} className="space-y-4 lg:pl-41">
                 <div>
                   <label htmlFor="rating" className="block text-sm mb-2 ">
                     Ratings
@@ -124,7 +124,7 @@ const ProductTabs = ({
                 {product.reviews.map((review) => (
                   <div
                     key={review._id}
-                    className="rounded-lg border bg-[#151515] p-3 px-5"
+                    className="rounded-lg bg-[#151515] p-3 px-5"
                   >
                     <div className="flex justify-between">
                       <strong>{review.name}</strong>

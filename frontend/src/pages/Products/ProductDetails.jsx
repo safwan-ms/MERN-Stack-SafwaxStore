@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -20,10 +20,14 @@ import HeartIcon from "./HeartIcon";
 import moment from "moment";
 import Ratings from "./Ratings.jsx";
 import ProductTabs from "./ProductTabs.jsx";
+import { addToCart } from "../../redux/features/cart/cartSlice.js";
 
 const ProductDetails = () => {
   const { id: productId } = useParams();
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -51,6 +55,11 @@ const ProductDetails = () => {
     } catch (error) {
       toast.error(error?.data?.message || error.message);
     }
+  };
+
+  const addToCartHandler = () => {
+    dispatch(addToCart({ ...product, qty }));
+    navigate("/cart");
   };
   return (
     <>
@@ -88,7 +97,7 @@ const ProductDetails = () => {
                 <h1 className="text-2xl font-bold text-white">
                   {product.name}
                 </h1>
-                <p className="text-gray-400">{product.description}</p>
+                <p className="text-gray-400 text-sm">{product.description}</p>
                 <p className="text-2xl font-bold">
                   ₹ {Intl.NumberFormat().format(product.price)}
                 </p>
@@ -125,7 +134,7 @@ const ProductDetails = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap">
+                <div className="flex flex-wrap gap-4">
                   <Ratings
                     value={product.rating}
                     text={`${product.numReviews} reviews`}
@@ -152,7 +161,7 @@ const ProductDetails = () => {
                 </div>
                 <div>
                   <button
-                    // onClick={addToCartHandler}
+                    onClick={addToCartHandler}
                     disabled={product.countInStock === 0}
                     className="bg-pink-600 text-white py-1 px-2 md:py-2 md:px-4 rounded-lg md:mt-0"
                   >
