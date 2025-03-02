@@ -17,11 +17,11 @@ import { logout } from "../../redux/features/Auth/authSlice.js";
 import "./Navigation.css";
 import NavMenu from "./NavMenu.jsx";
 import FavoritesCount from "../Products/FavoritesCount.jsx";
+import CartCount from "../../components/CartCount.jsx";
 
 const Navigation = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const [showSidebar, setShowSidebar] = useState(false);
-  const { cartItems } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -108,15 +108,7 @@ const Navigation = () => {
               className="flex relative items-center gap-3  py-3 hover:text-pink-400 hover:translate-x-2"
             >
               <AiOutlineShoppingCart size={26} /> <span>CART</span>
-              <div className="absolute top-0 right-32 ">
-                {cartItems.length > 0 && (
-                  <span>
-                    <span className="px-1 py-0 text-sm text-white bg-pink-500 rounded-full">
-                      {cartItems.reduce((a, c) => a + c.qty, 0)}
-                    </span>
-                  </span>
-                )}
-              </div>
+              <CartCount />
             </NavLink>
 
             <NavLink
