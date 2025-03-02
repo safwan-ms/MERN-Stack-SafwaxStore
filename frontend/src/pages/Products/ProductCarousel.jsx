@@ -11,6 +11,7 @@ import {
   FaStar,
   FaStore,
 } from "react-icons/fa";
+import { Link } from "react-router";
 const ProductCarousel = () => {
   const { data: products, isLoading, error } = useGetNewProductsQuery();
   const settings = {
@@ -46,55 +47,57 @@ const ProductCarousel = () => {
               countInStock,
             }) => (
               <div key={_id}>
-                <img
-                  src={image}
-                  alt={name}
-                  className="w-full h-[300px] sm:h-[400px] md:h-[450px] rounded-lg object-cover "
-                />
+                <Link to={`/product/${_id}`}>
+                  <img
+                    src={image}
+                    alt={name}
+                    className="w-full h-[300px] sm:h-[400px] md:h-[450px] rounded-lg object-cover "
+                  />
 
-                <div className="mt-4 flex justify-between p-2">
-                  <div className="one w-2/3">
-                    <h2 className="truncate">{name}</h2>
-                    <p>₹{new Intl.NumberFormat("en-IN").format(price)}</p>
-                    <br />
-                    <p className="text-xs lg:text-sm md:text-sm">
-                      {description.substring(0, 170)}...
-                    </p>
-                  </div>
-
-                  <div className="flex justify-between w-[50%]">
-                    <div className="one">
-                      <h1 className=" flex items-center mb-6 w-[9rem] text-xs">
-                        <FaStore className="text-white mr-2" /> Brand: {brand}
-                      </h1>
-
-                      <h1 className="flex items-center w-[9rem] mb-6 text-xs">
-                        <FaClock className="text-white mr-2" /> Added:{" "}
-                        {moment(createdAt).fromNow()}
-                      </h1>
-
-                      <h1 className=" flex items-center w-[9rem] mb-6 text-xs">
-                        <FaStar className="text-white mr-2" />
-                        Reviews: {Number(numReviews)}
-                      </h1>
+                  <div className="mt-4 flex justify-between p-2">
+                    <div className="one w-2/3">
+                      <h2 className="truncate">{name}</h2>
+                      <p>₹{new Intl.NumberFormat("en-IN").format(price)}</p>
+                      <br />
+                      <p className="text-xs lg:text-sm md:text-sm">
+                        {description.substring(0, 170)}...
+                      </p>
                     </div>
 
-                    <div className="two hidden lg:block">
-                      <h1 className="flex  items-center w-[9rem] mb-6 text-xs">
-                        <FaStar className="text-white mr-2" /> Ratings:{" "}
-                        {Math.round(rating)}
-                      </h1>
-                      <h1 className="flex items-center w-[9rem] mb-6 text-xs">
-                        <FaShoppingCart className="text-white mr-2" /> Quantity:{" "}
-                        {quantity}
-                      </h1>
-                      <h1 className="flex items-center w-[9rem] mb-6 text-xs">
-                        <FaBox className="text-white mr-2" /> In Stock:{" "}
-                        {countInStock}
-                      </h1>
+                    <div className="flex justify-between w-[50%]">
+                      <div className="one">
+                        <h1 className=" flex items-center mb-6 w-[9rem] text-xs">
+                          <FaStore className="text-white mr-2" /> Brand: {brand}
+                        </h1>
+
+                        <h1 className="flex items-center w-[9rem] mb-6 text-xs">
+                          <FaClock className="text-white mr-2" /> Added:{" "}
+                          {moment(createdAt).fromNow()}
+                        </h1>
+
+                        <h1 className=" flex items-center w-[9rem] mb-6 text-xs">
+                          <FaStar className="text-white mr-2" />
+                          Reviews: {Number(numReviews)}
+                        </h1>
+                      </div>
+
+                      <div className="two hidden lg:block">
+                        <h1 className="flex  items-center w-[9rem] mb-6 text-xs">
+                          <FaStar className="text-white mr-2" /> Ratings:{" "}
+                          {Math.round(rating)}
+                        </h1>
+                        <h1 className="flex items-center w-[9rem] mb-6 text-xs">
+                          <FaShoppingCart className="text-white mr-2" />{" "}
+                          Quantity: {quantity}
+                        </h1>
+                        <h1 className="flex items-center w-[9rem] mb-6 text-xs">
+                          <FaBox className="text-white mr-2" /> In Stock:{" "}
+                          {countInStock}
+                        </h1>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               </div>
             )
           )}

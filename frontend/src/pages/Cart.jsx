@@ -18,6 +18,10 @@ const Cart = () => {
     dispatch(removeFromCart(id));
   };
 
+  const checkoutHandler = () => {
+    navigate("/login?redirect=/shipping");
+  };
+
   return (
     <>
       <div className="">
@@ -50,7 +54,7 @@ const Cart = () => {
                         alt={item.name}
                         className="w-full h-full object-cover rounded-lg"
                       />
-                      <div className="sm:hidden mt-2 sm:mt-0 flex justify-center">
+                      <div className="sm:hidden mt-2 sm:mt-0 flex  justify-center">
                         <select
                           value={item.qty}
                           onChange={(e) =>
@@ -132,7 +136,7 @@ const Cart = () => {
                   <button
                     className="rounded-full cursor-pointer mt-4 bg-pink-500 hover:bg-pink-700 duration-200 text-white px-3 py-3 w-full text-sm md:text-lg"
                     disabled={cartItems.length === 0}
-                    // onClick={checkoutHandler}
+                    onClick={checkoutHandler}
                   >
                     Proceed To Checkout
                   </button>
