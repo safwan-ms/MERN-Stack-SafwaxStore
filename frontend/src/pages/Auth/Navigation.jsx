@@ -21,6 +21,7 @@ import FavoritesCount from "../Products/FavoritesCount.jsx";
 const Navigation = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const [showSidebar, setShowSidebar] = useState(false);
+  const { cartItems } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -104,9 +105,18 @@ const Navigation = () => {
 
             <NavLink
               to="/cart"
-              className="flex items-center gap-3  py-3 hover:text-pink-400 hover:translate-x-2"
+              className="flex relative items-center gap-3  py-3 hover:text-pink-400 hover:translate-x-2"
             >
               <AiOutlineShoppingCart size={26} /> <span>CART</span>
+              <div className="absolute top-0 right-32 ">
+                {cartItems.length > 0 && (
+                  <span>
+                    <span className="px-1 py-0 text-sm text-white bg-pink-500 rounded-full">
+                      {cartItems.reduce((a, c) => a + c.qty, 0)}
+                    </span>
+                  </span>
+                )}
+              </div>
             </NavLink>
 
             <NavLink
