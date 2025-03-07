@@ -18,17 +18,15 @@ This is a full-stack eCommerce store built using modern web technologies. It all
 
 ### Frontend:
 
-- React.js (with Next.js/Vite if applicable)
+- React.js (with Vite)
 - Redux Toolkit for state management
 - Tailwind CSS for styling
-- Axios for API requests
 
 ### Backend:
 
 - Node.js & Express.js
 - MongoDB & Mongoose for database management
 - JWT for authentication
-- Cloudinary for image storage (if applicable)
 
 ## Installation & Setup
 
@@ -42,50 +40,151 @@ This is a full-stack eCommerce store built using modern web technologies. It all
 1. **Clone the repository:**
 
    ```sh
-   git clone https://github.com/yourusername/ecommerce-store.git
-   cd ecommerce-store
+   git clone https://github.com/safwan-ms/MERN-Stack-SafwaxStore.git
+   cd MERN-Stack-SafwaxStore
    ```
 
 2. **Install dependencies for frontend and backend:**
 
    ```sh
    cd frontend  # Navigate to frontend folder
-   npm install  # Install frontend dependencies
+   npm install or npm i # Install frontend dependencies
    cd ../backend  # Navigate to backend folder
-   npm install  # Install backend dependencies
+   npm install or npm i # Install backend dependencies
    ```
 
 3. **Set up environment variables:**
 
    - Create a `.env` file in the `backend` directory and add the required configurations:
+
      ```env
      MONGO_URI=your_mongodb_connection_string
      JWT_SECRET=your_secret_key
-     STRIPE_SECRET_KEY=your_stripe_key (if using payments)
      ```
 
 4. **Start the development servers:**
 
    ```sh
-   cd backend
-   npm run dev  # Start backend server
-   cd ../frontend
-   npm run dev  # Start frontend server
+   npm run backend # Start backend server
+   npm run frontend # Start frontend server
    ```
 
 5. **Access the application:**
-   - Open [http://localhost:3000](http://localhost:3000) in your browser for the frontend.
+   - Open [http://localhost:5173](http://localhost:5173) in your browser for the frontend.
    - Backend runs on `http://localhost:5000` (or specified port).
 
-## API Endpoints (Backend)
+# API Routes Documentation (Backend)
 
-| Method | Endpoint            | Description        |
-| ------ | ------------------- | ------------------ |
-| GET    | `/api/products`     | Get all products   |
-| GET    | `/api/products/:id` | Get product by ID  |
-| POST   | `/api/users/signup` | Register new user  |
-| POST   | `/api/users/login`  | Login user         |
-| POST   | `/api/orders`       | Create a new order |
+## User Routes
+
+### Base URL: `/api/users`
+
+| Method | Endpoint   | Description                       |
+| ------ | ---------- | --------------------------------- |
+| POST   | `/`        | Create a new user                 |
+| GET    | `/`        | Get all users (Admin only)        |
+| POST   | `/auth`    | Login a user                      |
+| POST   | `/logout`  | Logout the current user           |
+| GET    | `/profile` | Get the current user's profile    |
+| PUT    | `/profile` | Update the current user's profile |
+| DELETE | `/:_id`    | Delete a user by ID (Admin only)  |
+| GET    | `/:_id`    | Get a user by ID (Admin only)     |
+| PUT    | `/:_id`    | Update a user by ID (Admin only)  |
+
+### Middleware Used:
+
+- `authenticate`: Ensures only authenticated users can access certain routes.
+- `authorizedAdmin`: Restricts access to admin users only.
+
+## Product Routes
+
+### Base URL: `/api/products`
+
+| Method | Endpoint             | Description                                                             |
+| ------ | -------------------- | ----------------------------------------------------------------------- |
+| GET    | `/`                  | Fetch paginated products                                                |
+| POST   | `/`                  | Add a new product (Admin only, uses `formidable` for file uploads)      |
+| GET    | `/allproducts`       | Fetch all products without pagination                                   |
+| POST   | `/:id/reviews`       | Add a review to a product (Authenticated users only)                    |
+| GET    | `/top`               | Fetch top-rated products                                                |
+| GET    | `/new`               | Fetch newly added products                                              |
+| GET    | `/:id`               | Fetch a product by ID                                                   |
+| PUT    | `/:id`               | Update product details (Admin only, uses `formidable` for file uploads) |
+| DELETE | `/:id`               | Delete a product by ID (Admin only)                                     |
+| POST   | `/filtered-products` | Filter products based on criteria                                       |
+
+### Middleware Used:
+
+- `authenticate`: Ensures only authenticated users can access certain routes.
+- `authorizedAdmin`: Restricts access to admin users only.
+- `checkId`: Validates product ID before performing actions.
+- `formidable()`: Handles file uploads for product images.
+
+## Category Routes
+
+### Base URL: `/api/categories`
+
+| Method | Endpoint       | Description                        |
+| ------ | -------------- | ---------------------------------- |
+| POST   | `/`            | Create a new category (Admin only) |
+| PUT    | `/:categoryId` | Update a category (Admin only)     |
+| DELETE | `/:categoryId` | Remove a category (Admin only)     |
+| GET    | `/categories`  | List all categories                |
+| GET    | `/:id`         | Read a category by ID              |
+
+### Middleware Used:
+
+- `authenticate`: Ensures only authenticated users can access certain routes.
+- `authorizedAdmin`: Restricts access to admin users only.
+
+## Notes
+
+- All admin routes require authentication and admin authorization.
+- Users can only modify their own profiles unless they have admin access.
+- Product and category-related operations (add, update, delete) are restricted to admins.
+
+### Example API Requests
+
+#### Login a User
+
+```http
+POST /api/users/auth
+Content-Type: application/json
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+#### Fetch All Products
+
+```http
+GET /api/products/allproducts
+```
+
+#### Add a New Product (Admin Only)
+
+```http
+POST /api/products
+Authorization: Bearer <admin-token>
+Content-Type: multipart/form-data
+{
+  "name": "New Product",
+  "price": 100,
+  "image": <file>
+}
+```
+
+#### Create a New Category (Admin Only)
+
+```http
+POST /api/categories
+Authorization: Bearer <admin-token>
+Content-Type: application/json
+{
+  "name": "Electronics"
+}
+```
 
 ## Future Enhancements
 
@@ -98,10 +197,6 @@ This is a full-stack eCommerce store built using modern web technologies. It all
 
 Contributions are welcome! Feel free to fork the repository and submit pull requests.
 
-## License
-
-This project is licensed under the MIT License.
-
 ---
 
-**Developed by [Your Name]**
+**Developed by Safwax**
