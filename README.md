@@ -9,7 +9,6 @@ This is a full-stack eCommerce store built using modern web technologies. It all
 - User authentication (Sign up, Login, Logout)
 - Product listing with category and brand filters
 - Shopping cart functionality
-- Search and sorting options
 - Checkout process with payment integration
 - Admin panel for product and order management
 - Responsive design for mobile and desktop
@@ -173,9 +172,15 @@ Authorization: Bearer <admin-token>
 Content-Type: multipart/form-data
 {
   "name": "New Product",
+  "image": "<file>",
+  "brand": "Brand Name",
   "price": 100,
-  "image": <file>
+  "quantity": 10,
+  "category": "category_id",
+  "description": "Product description",
+  "countInStock": 50
 }
+
 ```
 
 #### Create a New Category (Admin Only)
@@ -188,13 +193,6 @@ Content-Type: application/json
   "name": "Electronics"
 }
 ```
-
-## Future Enhancements
-
-- Wishlist functionality
-- Review & rating system
-- Real-time order tracking
-- Multi-vendor support
 
 ## Contributing
 
