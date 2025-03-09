@@ -1,7 +1,6 @@
 import Order from "../models/orderModel.js";
 import Product from "../models/productModel.js";
 
-//Utility Function
 function calcPrices(orderItems) {
   const itemsPrice = orderItems.reduce(
     (acc, item) => acc + item.price * item.qty,
@@ -10,10 +9,13 @@ function calcPrices(orderItems) {
 
   const shippingPrice = itemsPrice > 100 ? 0 : 10;
   const taxRate = 0.15;
-  const taxPrice = (itemsPrice + taxRate).toFixed(2);
+  const taxPrice = (itemsPrice * taxRate).toFixed(2);
 
-  const totalPrice =
-    itemsPrice + shippingPrice + parseFloat(taxPrice).toFixed(2);
+  const totalPrice = (
+    itemsPrice +
+    shippingPrice +
+    parseFloat(taxPrice)
+  ).toFixed(2);
 
   return {
     itemsPrice: itemsPrice.toFixed(2),
@@ -26,7 +28,7 @@ function calcPrices(orderItems) {
 const createOrder = async (req, res) => {
   try {
     const { orderItems, shippingAddress, paymentMethod } = req.body;
-    console.log(orderItems);
+
     if (orderItems && orderItems.length === 0) {
       res.status(400);
       throw new Error("No order items");
@@ -42,8 +44,8 @@ const createOrder = async (req, res) => {
       );
 
       if (!matchingItemFromDB) {
-        res.status(400);
-        throw new Error(`Product not found ${itemFromClient._id}`);
+        res.status(404);
+        throw new Error(`Product not found: ${itemFromClient._id}`);
       }
 
       return {
@@ -71,8 +73,18 @@ const createOrder = async (req, res) => {
     const createdOrder = await order.save();
     res.status(201).json(createdOrder);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
-export { createOrder };
+const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({}).populate("user", "id username");
+    res.json(orders);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export { createOrder, getAllOrders };
