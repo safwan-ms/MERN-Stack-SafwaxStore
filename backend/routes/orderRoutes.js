@@ -8,6 +8,7 @@ import {
   getAllOrders,
   getUserOrders,
   countTotalOrders,
+  calculateTotalSales,
 } from "../controllers/orderController.js";
 
 const router = express.Router();
@@ -19,4 +20,5 @@ router
 
 router.route("/mine").get(authenticate, getUserOrders);
 router.route("/total-orders").get(countTotalOrders);
+router.route("/total-sales").get(calculateTotalSales);
 export default router;

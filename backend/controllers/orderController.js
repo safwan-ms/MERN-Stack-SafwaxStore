@@ -108,4 +108,24 @@ const countTotalOrders = async (req, res) => {
     console.log(error.message);
   }
 };
-export { createOrder, getAllOrders, getUserOrders, countTotalOrders };
+
+const calculateTotalSales = async (req, res) => {
+  try {
+    const order = await Order.find();
+    const totalSales = order.reduce((sum, order) => sum + order.totalPrice, 0);
+
+    res.status(200).json({ totalSales });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+    console.log(error.message);
+  }
+};
+export {
+  createOrder,
+  getAllOrders,
+  getUserOrders,
+  countTotalOrders,
+  calculateTotalSales,
+};
