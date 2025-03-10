@@ -197,6 +197,29 @@ const markOrderAsPaid = async (req, res) => {
     console.log(error.message);
   }
 };
+
+const markOrderAsDelivered = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (order) {
+      order.isDelivered = true;
+      order.deliveredAt = Date.now();
+
+      const updateOrder = await order.save();
+
+      res.status(200).json(updateOrder);
+    } else {
+      res.status(404);
+      throw new Error("Order not found");
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+    console.log(error.message);
+  }
+};
 export {
   createOrder,
   getAllOrders,
@@ -206,4 +229,5 @@ export {
   calculateTotalSalesByDate,
   findOrderById,
   markOrderAsPaid,
+  markOrderAsDelivered,
 };
