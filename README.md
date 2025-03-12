@@ -139,6 +139,27 @@ This is a full-stack eCommerce store built using modern web technologies. It all
 - `authenticate`: Ensures only authenticated users can access certain routes.
 - `authorizedAdmin`: Restricts access to admin users only.
 
+## Order Routes
+
+### Base URL: `/api/orders`
+
+| Method | Endpoint               | Description                                      |
+| ------ | ---------------------- | ------------------------------------------------ |
+| POST   | `/`                    | Create a new order (Authenticated users only)    |
+| GET    | `/`                    | Get all orders (Admin only)                      |
+| GET    | `/mine`                | Get the current user's orders                    |
+| GET    | `/total-orders`        | Get total number of orders                       |
+| GET    | `/total-sales`         | Calculate total sales                            |
+| GET    | `/total-sales-by-date` | Calculate total sales by date                    |
+| GET    | `/:id`                 | Get an order by ID (Authenticated users only)    |
+| PUT    | `/:id/pay`             | Mark an order as paid (Authenticated users only) |
+| PUT    | `/:id/deliver`         | Mark an order as delivered (Admin only)          |
+
+### Middleware Used:
+
+- `authenticate`: Ensures only authenticated users can access certain routes.
+- `authorizedAdmin`: Restricts access to admin users only (where applicable).
+
 ## Notes
 
 - All admin routes require authentication and admin authorization.
