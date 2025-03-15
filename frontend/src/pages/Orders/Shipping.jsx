@@ -5,6 +5,7 @@ import {
   saveShippingAddress,
   savePaymentMethod,
 } from "../../redux/features/cart/cartSlice.js";
+import ProgressStep from "../../components/ProgressStep.jsx";
 
 const Shipping = () => {
   const cart = useSelector((state) => state.cart);
@@ -26,10 +27,18 @@ const Shipping = () => {
       navigate("/shipping");
     }
   }, [navigate, shippingAddress]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(saveShippingAddress({ address, city, postalCode, country }));
+    dispatch(savePaymentMethod(paymentMethod));
+    navigate("/placeorder");
+  };
   return (
-    <div className="mx-5 lg:mx-10">
-      <div className="mt-20 flex justify-center items-center flex-wrap gap-4">
-        <form className="w-full sm:w-[40rem] max-w-xl">
+    <div className="mx-5 mt-[6rem] sm:mt-[7rem] lg:mx-10">
+      <ProgressStep step1 step2 />
+      <div className=" flex mt-[1rem] justify-center items-center flex-wrap gap-4">
+        <form onSubmit={submitHandler} className="w-full sm:w-[40rem] max-w-xl">
           <h1 className="text-2xl font-semibold mb-4 text-center sm:text-left">
             Shipping
           </h1>
