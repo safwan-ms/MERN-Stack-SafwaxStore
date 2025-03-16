@@ -53,6 +53,31 @@ const Order = () => {
     }
   }, [errorPayPal, loadingPaypal, order, paypal, paypalDispatch]);
 
+  function onApprove(data, actions) {
+    return actions.order.capture().then(async function (details) {
+      try {
+        await payOrder({ orderId, details });
+        await refetch();
+        toast.success("Order is paid");
+      } catch (error) {
+        toast.error(error?.data?.message || error.message);
+      }
+    });
+  }
+
+  function createOrder(data, actions) {
+    return actions.order
+      .create({
+        purchase_units: [{ amount: { value: order.totalPrice } }],
+      })
+      .then((orderId) => {
+        return orderId;
+      });
+  }
+
+  function onError(err) {
+    toast.error(err.message);
+  }
   return isLoading ? (
     <Loader className="mt-[5rem] sm:mt-[6rem]" />
   ) : error ? (
@@ -154,6 +179,25 @@ const Order = () => {
           <span>Total</span>
           <span>$ {order.totalPrice}</span>
         </div>
+
+        {!order.isPaid && (
+          <div>
+            {loadingPay && <Loader />}
+            {isPending ? (
+              <Loader />
+            ) : (
+              <div>
+                <div>
+                  <PayPalButtons
+                    createOrder={createOrder}
+                    onApprove={onApprove}
+                    onError={onError}
+                  ></PayPalButtons>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

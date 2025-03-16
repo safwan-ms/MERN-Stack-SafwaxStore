@@ -46,7 +46,7 @@ const PlaceOrder = () => {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse min-w-[600px]">
               <thead>
-                <tr className=" text-white text-sm sm:text-base">
+                <tr className="text-white text-sm sm:text-base">
                   <th className="px-2 py-2 text-left">Image</th>
                   <th className="px-2 py-2 text-left">Product</th>
                   <th className="px-2 py-2 text-center">Qty</th>
