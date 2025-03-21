@@ -2,7 +2,6 @@ import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import { Link } from "react-router-dom";
 import { useGetOrdersQuery } from "../../redux/api/orderApiSlice.js";
-import AdminMenu from "./AdminMenu.jsx";
 
 const OrderList = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();

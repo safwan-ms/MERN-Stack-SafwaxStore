@@ -181,12 +181,12 @@ const Order = () => {
 
         <div className="flex justify-between mb-2">
           <span>Tax</span>
-          <span>$ {order.taxPrice}</span>
+          <span>₹ {order.taxPrice}</span>
         </div>
 
         <div className="flex justify-between mb-2">
           <span>Total</span>
-          <span>$ {order.totalPrice}</span>
+          <span>₹ {order.totalPrice}</span>
         </div>
 
         {!order.isPaid && (

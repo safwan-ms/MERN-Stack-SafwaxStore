@@ -44,11 +44,11 @@ const UserOrder = () => {
                   <td className="py-2 px-4 border-b-2">
                     {order.createdAt.substring(0, 10)}
                   </td>
-                  <td className="py-2 px-4 border-b-2">$ {order.totalPrice}</td>
+                  <td className="py-2 px-4 border-b-2">₹ {order.totalPrice}</td>
 
                   <td className="py-2 px-4 border-b-2">
                     {order.isPaid ? (
-                      <p className="p-1 text-center bg-green-400 w-[6rem] rounded-full mx-auto">
+                      <p className="p-1 text-center bg-green-400  rounded-full mx-auto">
                         Completed
                       </p>
                     ) : (
@@ -60,7 +60,7 @@ const UserOrder = () => {
 
                   <td className="py-2 px-4 border-b-2">
                     {order.isDelivered ? (
-                      <p className="p-1 text-center bg-green-400 w-[6rem] rounded-full mx-auto">
+                      <p className="p-1 text-center bg-green-400  rounded-full mx-auto">
                         Completed
                       </p>
                     ) : (
