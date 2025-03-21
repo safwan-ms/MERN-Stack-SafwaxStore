@@ -20,7 +20,6 @@ const Order = () => {
     isLoading,
     error,
   } = useGetOrderDetailsQuery(orderId);
-
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
   const [deliverOrder, { isLoading: loadingDeliver }] =
     useDeliverOrderMutation();
@@ -34,24 +33,24 @@ const Order = () => {
   } = useGetPaypalClientIdQuery();
 
   useEffect(() => {
-    if (!errorPayPal && !loadingPaypal && paypal.clientId) {
-      const loadingPayPalScript = async () => {
+    if (paypal?.clientId && !loadingPaypal && !errorPayPal) {
+      const loadPayPalScript = async () => {
         paypalDispatch({
           type: "resetOptions",
           value: {
-            clientId: paypal.clientId,
-            currency: "USD",
+            "client-id": paypal.clientId,
+            currency: "INR", // Ensure this matches your PayPal settings
           },
         });
+
         paypalDispatch({ type: "setLoadingStatus", value: "pending" });
       };
-      if (order && !order.isPaid) {
-        if (!window.paypal) {
-          loadingPayPalScript();
-        }
+
+      if (order && !order.isPaid && !window.paypal) {
+        loadPayPalScript();
       }
     }
-  }, [errorPayPal, loadingPaypal, order, paypal, paypalDispatch]);
+  }, [paypal, errorPayPal, loadingPaypal, order, paypalDispatch]);
 
   function onApprove(data, actions) {
     return actions.order.capture().then(async function (details) {
@@ -60,6 +59,7 @@ const Order = () => {
         await refetch();
         toast.success("Order is paid");
       } catch (error) {
+        console.error("Pay Order Error:", error); // Debugging
         toast.error(error?.data?.message || error.message);
       }
     });
@@ -68,7 +68,11 @@ const Order = () => {
   function createOrder(data, actions) {
     return actions.order
       .create({
-        purchase_units: [{ amount: { value: order.totalPrice } }],
+        purchase_units: [
+          {
+            amount: { value: order.totalPrice.toFixed(2).toString() }, // Ensure proper formatting
+          },
+        ],
       })
       .then((orderId) => {
         return orderId;
@@ -78,6 +82,11 @@ const Order = () => {
   function onError(err) {
     toast.error(err.message);
   }
+
+  const deliverHandler = async () => {
+    await deliverOrder(orderId);
+    refetch();
+  };
   return isLoading ? (
     <Loader className="mt-[5rem] sm:mt-[6rem]" />
   ) : error ? (
@@ -129,7 +138,7 @@ const Order = () => {
         </div>
       </div>
 
-      <div className="md:w-1/3 w-full  md:px-0">
+      <div className="md:w-1/3 w-full md:px-0">
         <div className="mt-5 px-5 border-gray-300 pb-4 mb-4">
           <h2 className="text-xl font-bold mb-2">Shipping</h2>
           <p className="mb-4 mt-4">
@@ -196,6 +205,19 @@ const Order = () => {
                 </div>
               </div>
             )}
+          </div>
+        )}
+
+        {loadingDeliver && <Loader />}
+        {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+          <div>
+            <button
+              type="button"
+              className="bg-pink-500 text-white w-full py-2"
+              onClick={deliverHandler}
+            >
+              Mark as Deliver
+            </button>
           </div>
         )}
       </div>
