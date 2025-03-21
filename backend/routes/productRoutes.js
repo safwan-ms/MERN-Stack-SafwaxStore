@@ -1,5 +1,4 @@
 import express from "express";
-import formidable from "express-formidable";
 import {
   authenticate,
   authorizedAdmin,
@@ -37,7 +36,7 @@ router.route("/new").get(fetchNewProducts);
 router
   .route("/:id")
   .get(fetchProductById)
-  .put(authenticate, authorizedAdmin, formidable(), updateProductDetails)
+  .put(authenticate, authorizedAdmin, uploadMiddleware, updateProductDetails)
   .delete(authenticate, authorizedAdmin, removeProduct);
 
 router.route("/filtered-products").post(filterProducts);

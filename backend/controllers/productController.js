@@ -1,5 +1,8 @@
 import cloudinary from "../config/cloudinary.js";
-import { uploadToCloudinary } from "../helpers/cloudinaryHelper.js";
+import {
+  removeFromCloudinary,
+  uploadToCloudinary,
+} from "../helpers/cloudinaryHelper.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import Product from "../models/productModel.js";
 
@@ -47,33 +50,49 @@ const addProduct = asyncHandler(async (req, res) => {
 
 const updateProductDetails = asyncHandler(async (req, res) => {
   try {
-    const { name, description, price, category, quantity, brand } = req.fields;
+    const { id } = req.params;
+    console.log(id);
 
-    switch (true) {
-      case !name:
-        return res.status(400).json({ error: "Name is required!" });
-      case !description:
-        return res.status(400).json({ error: "Description is required!" });
-      case !price:
-        return res.status(400).json({ error: "Price is required!" });
-      case !category:
-        return res.status(400).json({ error: "Category is required!" });
-      case !quantity:
-        return res.status(400).json({ error: "Quantity is required!" });
-      case !brand:
-        return res.status(400).json({ error: "Brand is required!" });
+    const product = await Product.findById(id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
     }
 
-    const product = await Product.findByIdAndUpdate(
-      req.params.id,
-      { ...req.fields },
-      { new: true }
-    );
+    const {
+      name,
+      description,
+      price,
+      category,
+      quantity,
+      brand,
+      countInStock,
+    } = req.body;
 
-    if (!product) return res.status(404).json({ error: "Product not found!" });
+    // switch (true) {
+    //   case !name:
+    //     return res.status(400).json({ error: "Name is required!" });
+    //   case !description:
+    //     return res.status(400).json({ error: "Description is required!" });
+    //   case !price:
+    //     return res.status(400).json({ error: "Price is required!" });
+    //   case !category:
+    //     return res.status(400).json({ error: "Category is required!" });
+    //   case !quantity:
+    //     return res.status(400).json({ error: "Quantity is required!" });
+    //   case !brand:
+    //     return res.status(400).json({ error: "Brand is required!" });
+    // }
 
-    await product.save();
-    res.status(202).json(product);
+    // const product = await Product.findByIdAndUpdate(
+    //   req.params.id,
+    //   { ...req.fields },
+    //   { new: true }
+    // );
+
+    // if (!product) return res.status(404).json({ error: "Product not found!" });
+
+    // await product.save();
+    // res.status(202).json(product);
   } catch (error) {
     console.error(error);
     res.status(400).json("Failed to update product", error.message);
@@ -91,7 +110,7 @@ const removeProduct = asyncHandler(async (req, res) => {
     const publicId = product.image?.publicId;
 
     if (publicId) {
-      await cloudinary.uploader.destroy(publicId);
+      await removeFromCloudinary(publicId);
       console.log(`Deleted image from Cloudinary: ${publicId}`);
     }
 

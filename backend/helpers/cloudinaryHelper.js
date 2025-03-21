@@ -14,4 +14,14 @@ const uploadToCloudinary = async (filePath) => {
   }
 };
 
-export { uploadToCloudinary };
+const removeFromCloudinary = async (publicId) => {
+  try {
+    const result = await cloudinary.uploader.destroy(publicId);
+    return { result };
+  } catch (error) {
+    console.error("Error while removing from Cloudinary", error);
+    throw new Error("Error while removing from Cloudinary");
+  }
+};
+
+export { uploadToCloudinary, removeFromCloudinary };

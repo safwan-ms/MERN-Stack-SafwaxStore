@@ -62,30 +62,29 @@ const ProductUpdate = () => {
     e.preventDefault();
 
     try {
-      const formData = new FormData();
-
-      formData.append("image", image);
-      formData.append("name", name);
-      formData.append("description", description);
-      formData.append("price", price);
-      formData.append("category", category);
-      formData.append("quantity", quantity);
-      formData.append("brand", brand);
-      formData.append("countInStock", stock);
-
-      const { data } = await updateProduct({
+      const updatedProduct = {
         productId: params._id,
-        formData,
-      });
+        name,
+        description,
+        price,
+        category,
+        quantity,
+        brand,
+        countInStock: stock,
+        image, // Make sure this is an object with `url` if needed
+      };
 
-      if (data.error) {
-        toast.error(data.error);
+      const response = await updateProduct(updatedProduct).unwrap();
+
+      if (response.error) {
+        toast.error(response.error);
       } else {
-        toast.success(`Product successfully updated`);
+        toast.success("Product successfully updated");
         navigate("/admin/allproductslist");
       }
     } catch (error) {
-      toast.error(`Upload Image failed: ${error.message}`);
+      console.error("Update error:", error);
+      toast.error(`Update failed: ${error.message || "Something went wrong"}`);
     }
   };
 
@@ -96,11 +95,10 @@ const ProductUpdate = () => {
       );
 
       if (!answer) return;
+      const productId = params._id;
+      const publicId = image?.publicId;
 
-      const { data } = await deleteProduct({
-        productId: params.id,
-        publicId: image?.public_id,
-      });
+      const { data } = await deleteProduct({ productId, publicId }).unwrap();
 
       toast.success(`${data.product.name} is deleted successfully`);
       navigate("/admin/allproductslist");

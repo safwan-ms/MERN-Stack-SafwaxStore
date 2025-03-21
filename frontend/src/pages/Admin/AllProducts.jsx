@@ -35,7 +35,7 @@ const AllProducts = () => {
             className="flex flex-col md:flex-row border border-gray-700 rounded-lg overflow-hidden w-full"
           >
             <img
-              src={product.image}
+              src={product.image.url}
               alt={product.name}
               className="w-full md:w-1/2 h-60 object-cover"
             />
