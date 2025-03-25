@@ -6,53 +6,27 @@ import {
   useGetTotalSalesQuery,
 } from "../../redux/api/orderApiSlice.js";
 import { useEffect, useState } from "react";
-import AdminMenu from "./AdminMenu.jsx";
 import OrderList from "./OrderList.jsx";
 import Loader from "../../components/Loader.jsx";
 
 const AdminDashboard = () => {
   const { data: sales, isLoading } = useGetTotalSalesQuery();
-  const { data: customers, isLoading: loading } = useGetUsersQuery();
-  const { data: orders, isLoading: loadingTwo } = useGetTotalOrdersQuery();
+  const { data: customers } = useGetUsersQuery();
+  const { data: orders } = useGetTotalOrdersQuery();
   const { data: salesDetail } = useGetTotalSalesByDateQuery();
 
   const [state, setState] = useState({
     options: {
-      chart: {
-        type: "line",
-      },
-      tooltip: {
-        theme: "dark",
-      },
+      chart: { type: "line" },
+      tooltip: { theme: "dark" },
       colors: ["#00E396"],
-      dataLabels: {
-        enabled: true,
-      },
-      stroke: {
-        curve: "smooth",
-      },
-      title: {
-        text: "Sales Trend",
-        align: "left",
-      },
-      grid: {
-        borderColor: "#ccc",
-      },
-      markers: {
-        size: 1,
-      },
-      xaxis: {
-        categories: [],
-        title: {
-          text: "Date",
-        },
-      },
-      yaxis: {
-        title: {
-          text: "Sales",
-        },
-        min: 0,
-      },
+      dataLabels: { enabled: true },
+      stroke: { curve: "smooth" },
+      title: { text: "Sales Trend", align: "left" },
+      grid: { borderColor: "#ccc" },
+      markers: { size: 1 },
+      xaxis: { categories: [], title: { text: "Date" } },
+      yaxis: { title: { text: "Sales" }, min: 0 },
       legend: {
         position: "top",
         horizontalAlign: "right",
@@ -88,58 +62,48 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <section className="xl:ml-[4rem] mt-20 md:ml-[0rem]">
-        <div className="w-[80%] flex justify-around flex-wrap">
-          <div className="rounded-lg bg-black p-5 w-[20rem] mt-5">
-            <div className="font-bold rounded-full w-[3rem] bg-pink-500 text-center p-3">
-              ₹
+      <section className="mt-20 px-4 sm:px-6 lg:px-8">
+        {/* Dashboard Cards */}
+        <div className="w-full flex flex-wrap justify-center gap-6">
+          {[
+            { label: "Sales", value: sales?.totalSales?.toFixed(2) || 0 },
+            { label: "Customers", value: customers?.length || 0 },
+            { label: "All Orders", value: orders?.totalOrders || 0 },
+          ].map((item, index) => (
+            <div
+              key={index}
+              className="bg-black text-white rounded-lg p-5 w-full max-w-xs sm:max-w-sm lg:max-w-md"
+            >
+              <div className="font-bold rounded-full w-12 h-12 bg-pink-500 text-center flex items-center justify-center text-lg">
+                ₹
+              </div>
+              <p className="mt-5">{item.label}</p>
+              <h1 className="text-xl font-bold">
+                {isLoading ? <Loader /> : `₹ ${item.value}`}
+              </h1>
             </div>
+          ))}
+        </div>
 
-            <p className="mt-5">Sales</p>
-
-            <h1 className="text-xl font-bold">
-              ₹ {isLoading ? <Loader /> : sales.totalSales.toFixed(2)}
-            </h1>
-          </div>
-
-          <div className="rounded-lg bg-black p-5 w-[20rem] mt-5">
-            <div className="font-bold rounded-full w-[3rem] bg-pink-500 text-center p-3">
-              ₹
-            </div>
-
-            <p className="mt-5">Customers</p>
-
-            <h1 className="text-xl font-bold">
-              ₹ {isLoading ? <Loader /> : customers?.length}
-            </h1>
-          </div>
-
-          <div className="rounded-lg bg-black p-5 w-[20rem] mt-5">
-            <div className="font-bold rounded-full w-[3rem] bg-pink-500 text-center p-3">
-              ₹
-            </div>
-
-            <p className="mt-5">All Orders</p>
-            <h1 className="text-xl font-bold">
-              ₹ {isLoading ? <Loader /> : orders?.totalOrders}
-            </h1>
+        {/* Chart */}
+        <div className="w-full flex justify-center mt-10">
+          <div className="w-full max-w-4xl">
+            <Chart
+              options={state.options}
+              series={state.series}
+              type="line"
+              width="100%"
+            />
           </div>
         </div>
 
-        <div className="ml-[10rem] mt-[4rem]">
-          <Chart
-            options={state.options}
-            series={state.series}
-            type="line"
-            width="70%"
-          />
-        </div>
-
-        <div className="mt-[4rem]">
+        {/* Order List */}
+        <div className="mt-10">
           <OrderList />
         </div>
       </section>
     </>
   );
 };
+
 export default AdminDashboard;
