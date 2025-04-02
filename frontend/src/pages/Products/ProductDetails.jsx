@@ -86,7 +86,7 @@ const ProductDetails = () => {
               {/* Product Image & Wishlist Icon */}
               <div className=" w-full md:w-1/2">
                 <img
-                  src={product.image}
+                  src={product.image?.url}
                   alt={product.name}
                   className="w-full h-auto object-cover "
                 />

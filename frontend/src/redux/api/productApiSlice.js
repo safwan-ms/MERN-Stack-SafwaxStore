@@ -36,17 +36,9 @@ export const productApiSlice = apiSlice.injectEndpoints({
         url: `${PRODUCT_URL}`,
         method: "POST",
         body: productData,
+        formData: true,
       }),
 
-      invalidatesTags: ["Product"],
-    }),
-
-    updateProduct: builder.mutation({
-      query: ({ productId, formData }) => ({
-        url: `${PRODUCT_URL}/${productId}`,
-        method: "PUT",
-        body: formData,
-      }),
       invalidatesTags: ["Product"],
     }),
 
@@ -56,6 +48,15 @@ export const productApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+    }),
+
+    updateProduct: builder.mutation({
+      query: ({ productId, formData }) => ({
+        url: `${PRODUCT_URL}/${productId}`,
+        method: "PUT",
+        body: formData,
+      }),
+      invalidatesTags: ["Product"],
     }),
 
     deleteProduct: builder.mutation({

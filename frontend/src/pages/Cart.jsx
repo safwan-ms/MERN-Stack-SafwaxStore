@@ -50,7 +50,7 @@ const Cart = () => {
                     {/* Product Image */}
                     <div className="w-24  flex flex-col justify-between h-32 md:w-40 md:h-40 ">
                       <img
-                        src={item.image}
+                        src={item.image?.url}
                         alt={item.name}
                         className="w-full h-full object-cover rounded-lg"
                       />

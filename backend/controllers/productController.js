@@ -1,9 +1,12 @@
+import cloudinary from "../config/cloudinary.js";
+import { uploadToCloudinary } from "../helpers/cloudinaryHelper.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import Product from "../models/productModel.js";
 
 const addProduct = asyncHandler(async (req, res) => {
   try {
-    const { name, description, price, category, quantity, brand } = req.fields;
+    console.log("Uploaded File:", req.file);
+    const { name, description, price, category, quantity, brand } = req.body;
 
     //Validation
     switch (true) {
@@ -20,8 +23,19 @@ const addProduct = asyncHandler(async (req, res) => {
       case !brand:
         return res.status(400).json({ error: "Brand is required!" });
     }
+    // Upload image to Cloudinary
+    const { url, publicId } = await uploadToCloudinary(req.file.path);
 
-    const product = Product({ ...req.fields });
+    const product = new Product({
+      name,
+      description,
+      price,
+      category,
+      quantity,
+      brand,
+      image: { url, publicId },
+    });
+
     await product.save();
 
     res.status(201).json(product);
@@ -68,13 +82,22 @@ const updateProductDetails = asyncHandler(async (req, res) => {
 
 const removeProduct = asyncHandler(async (req, res) => {
   try {
-    const product = await Product.findByIdAndDelete(req.params.id);
+    // Find the product first
+    const product = await Product.findById(req.params.id);
 
     if (!product) return res.status(400).json({ message: "Product not found" });
 
-    res
-      .status(200)
-      .json({ message: "Product deleted successfully", product: product });
+    // Extract publicId from the stored product image
+    const publicId = product.image?.publicId;
+
+    if (publicId) {
+      await cloudinary.uploader.destroy(publicId);
+      console.log(`Deleted image from Cloudinary: ${publicId}`);
+    }
+
+    // Now delete the product from the database
+    await Product.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Product deleted successfully", product });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Failed to remove product", error.message);

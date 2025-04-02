@@ -21,7 +21,7 @@ const ProductCard = ({ p }) => {
           </span>
           <img
             className="cursor-pointer w-full h-[220px] object-cover"
-            src={p.image}
+            src={p.image?.url}
             alt={p.name}
           />
         </Link>

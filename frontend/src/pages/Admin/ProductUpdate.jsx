@@ -97,7 +97,10 @@ const ProductUpdate = () => {
 
       if (!answer) return;
 
-      const { data } = await deleteProduct(params._id);
+      const { data } = await deleteProduct({
+        productId: params.id,
+        publicId: image?.public_id,
+      });
 
       toast.success(`${data.product.name} is deleted successfully`);
       navigate("/admin/allproductslist");
@@ -117,7 +120,7 @@ const ProductUpdate = () => {
           {image && (
             <div className="text-center">
               <img
-                src={image}
+                src={image?.url}
                 alt="product"
                 className="block mx-auto max-h-[200px]"
               />

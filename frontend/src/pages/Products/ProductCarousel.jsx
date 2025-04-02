@@ -49,7 +49,7 @@ const ProductCarousel = () => {
               <div key={_id}>
                 <Link to={`/product/${_id}`}>
                   <img
-                    src={image}
+                    src={image?.url}
                     alt={name}
                     className="w-full h-[300px] sm:h-[400px] md:h-[450px] rounded-lg object-cover "
                   />

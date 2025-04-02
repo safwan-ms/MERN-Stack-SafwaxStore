@@ -17,13 +17,14 @@ import {
   fetchNewProducts,
   filterProducts,
 } from "../controllers/productController.js";
+import uploadMiddleware from "../middlewares/uploadMiddleware.js";
 
 const router = express.Router();
 
 router
   .route("/")
   .get(fetchProducts)
-  .post(authenticate, authorizedAdmin, formidable(), addProduct);
+  .post(authenticate, authorizedAdmin, uploadMiddleware, addProduct);
 
 router.route("/allproducts").get(fetchAllProducts);
 
