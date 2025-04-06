@@ -4,7 +4,6 @@ import {
   useUpdateProductMutation,
   useDeleteProductMutation,
   useGetProductByIdQuery,
-  useUploadProductImageMutation,
 } from "../../redux/api/productApiSlice.js";
 import { useFetchCategoriesQuery } from "../../redux/api/categoryApiSlice.js";
 import { toast } from "react-toastify";
@@ -14,7 +13,7 @@ const ProductUpdate = () => {
 
   const { data: productData } = useGetProductByIdQuery(params._id);
 
-  const [image, setImage] = useState(productData?.image || "");
+  const [image, setImage] = useState(productData?.image.url || "");
   const [name, setName] = useState(productData?.name || "");
   const [description, setDescription] = useState(
     productData?.description || ""
@@ -28,7 +27,6 @@ const ProductUpdate = () => {
   const navigate = useNavigate();
 
   const { data: categories = [] } = useFetchCategoriesQuery();
-  const [uploadProductImage] = useUploadProductImageMutation();
   const [updateProduct] = useUpdateProductMutation();
   const [deleteProduct] = useDeleteProductMutation();
 
@@ -40,42 +38,43 @@ const ProductUpdate = () => {
       setCategory(productData.category);
       setQuantity(productData.quantity);
       setBrand(productData.brand);
-      setImage(productData.image);
+      setImage(productData.image.url);
       setStock(productData.countInStock);
     }
   }, [productData]);
 
-  const uploadFileHandler = async (e) => {
-    const formData = new FormData();
-
-    formData.append("image", e.target.files[0]);
-    try {
-      const res = uploadProductImage(formData).unwrap();
-      toast.success("Item added successfully");
-      setImage(res.image);
-    } catch (error) {
-      toast.error(`Upload Image failed. Try again!`, error.message);
-    }
+  const handleFileChange = (e) => {
+    setImage(e.target.files[0]); // Set the file, no API call needed
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if (!name || !description || !price || !category || !quantity || !brand) {
+      return toast.error("Please fill all required fields.");
+    }
     try {
-      const updatedProduct = {
-        productId: params._id,
+      const productData = new FormData();
+      productData.append("image", image); // Include the image
+      productData.append("name", name);
+      productData.append("description", description);
+      productData.append("price", price);
+      productData.append("category", category);
+      productData.append("quantity", quantity);
+      productData.append("brand", brand);
+      productData.append("countInStock", stock);
+
+      const response = await updateProduct(productData).unwrap();
+      console.log({
         name,
         description,
         price,
         category,
         quantity,
         brand,
-        countInStock: stock,
-        image, // Make sure this is an object with `url` if needed
-      };
-
-      const response = await updateProduct(updatedProduct).unwrap();
-
+        stock,
+        image,
+      });
+      console.log("updatedProduct", response);
       if (response.error) {
         toast.error(response.error);
       } else {
@@ -93,20 +92,22 @@ const ProductUpdate = () => {
       let answer = window.confirm(
         "Are you sure you want to delete this product?"
       );
-
       if (!answer) return;
+
       const productId = params._id;
       const publicId = image?.publicId;
 
-      const { data } = await deleteProduct({ productId, publicId }).unwrap();
+      const data = await deleteProduct({ productId, publicId }).unwrap();
+      console.log("Delete response:", data);
 
       toast.success(`${data.product.name} is deleted successfully`);
       navigate("/admin/allproductslist");
     } catch (error) {
       console.log(error);
-      toast.error("Delete failed.Try again!");
+      toast.error("Delete failed. Try again!");
     }
   };
+
   return (
     <div className="mt-13 md:mt-15 lg:mt-17 mx-5 sm:mx-6 md:mx-10 lg:mx-15">
       <div>
@@ -133,7 +134,7 @@ const ProductUpdate = () => {
                 accept="image/*"
                 className={!image ? "hidden" : "text-white"}
                 placeholder="Choose File"
-                onChange={uploadFileHandler}
+                onChange={handleFileChange}
               />
             </label>
           </div>

@@ -95,12 +95,12 @@ const updateProductDetails = asyncHandler(async (req, res) => {
     }
 
     // Update only provided fields
-    if (name) product.name = name;
-    if (description) product.description = description;
-    if (price) product.price = price;
-    if (category) product.category = category;
-    if (quantity) product.quantity = quantity;
-    if (brand) product.brand = brand;
+    product.name = name;
+    product.description = description;
+    product.price = price;
+    product.category = category;
+    product.quantity = quantity;
+    product.brand = brand;
 
     await product.save();
     res
@@ -131,7 +131,9 @@ const removeProduct = asyncHandler(async (req, res) => {
     res.status(200).json({ message: "Product deleted successfully", product });
   } catch (error) {
     console.log(error.message);
-    res.status(500).json("Failed to remove product", error.message);
+    res
+      .status(500)
+      .json({ message: "Failed to remove product", error: error.message });
   }
 });
 
