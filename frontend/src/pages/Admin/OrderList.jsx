@@ -5,7 +5,7 @@ import { useGetOrdersQuery } from "../../redux/api/orderApiSlice.js";
 
 const OrderList = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
-
+  console.log(orders);
   return (
     <div className="mt-15 sm:mt-16 lg:mt-20 mx-5 lg:mx-10 overflow-x-auto">
       {isLoading ? (
@@ -35,7 +35,7 @@ const OrderList = () => {
                 <tr key={order._id} className="text-center border-b-2">
                   <td className="py-2 px-4 border-b-2">
                     <img
-                      src={order.orderItems[0].image}
+                      src={order.orderItems[0].image.url}
                       alt={order._id}
                       className="w-[4rem] sm:w-[5rem] pt-4 mx-auto"
                     />

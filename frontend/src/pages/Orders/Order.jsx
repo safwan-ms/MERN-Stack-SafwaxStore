@@ -116,7 +116,7 @@ const Order = () => {
                     <tr key={index}>
                       <td className="p-2">
                         <img
-                          src={item.image}
+                          src={item.image.url}
                           alt={item.name}
                           className="w-16 h-16 object-cover"
                         />

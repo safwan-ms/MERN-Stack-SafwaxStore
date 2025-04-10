@@ -10,18 +10,22 @@ import { clearCartItems } from "../../redux/features/cart/cartSlice.js";
 
 const PlaceOrder = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
   const cart = useSelector((state) => state.cart);
+
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+
   useEffect(() => {
     if (!cart.shippingAddress.address) {
       navigate("/shipping");
     }
-  }, [cart.shippingAddress.address, navigate]);
+  }, [cart.paymentMethod, cart.shippingAddress.address, navigate]);
+
+  const dispatch = useDispatch();
 
   const placeOrderHandler = async () => {
     try {
-      const res = await createOrder({
+      const orderData = {
         orderItems: cart.cartItems,
         shippingAddress: cart.shippingAddress,
         paymentMethod: cart.paymentMethod,
@@ -29,13 +33,17 @@ const PlaceOrder = () => {
         shippingPrice: cart.shippingPrice,
         taxPrice: cart.taxPrice,
         totalPrice: cart.totalPrice,
-      }).unwrap();
+      };
+      console.log(orderData);
+      const res = await createOrder(orderData).unwrap();
+      console.log(res);
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);
     } catch (error) {
       toast.error(error);
     }
   };
+
   return (
     <div className="mt-[5rem] sm:mt-[6rem]">
       <ProgressSteps step1 step2 step3 />
@@ -59,7 +67,7 @@ const PlaceOrder = () => {
                   <tr key={index} className="text-xs sm:text-sm ">
                     <td className="p-2">
                       <img
-                        src={item.image}
+                        src={item.image.url}
                         alt={item.name}
                         className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded"
                       />
