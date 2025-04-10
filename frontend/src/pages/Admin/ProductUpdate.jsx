@@ -7,7 +7,6 @@ import {
 } from "../../redux/api/productApiSlice.js";
 import { useFetchCategoriesQuery } from "../../redux/api/categoryApiSlice.js";
 import { toast } from "react-toastify";
-import Loader from "../../components/Loader.jsx";
 
 const ProductUpdate = () => {
   const params = useParams();
@@ -28,10 +27,8 @@ const ProductUpdate = () => {
   const navigate = useNavigate();
 
   const { data: categories = [] } = useFetchCategoriesQuery();
-  const [updateProduct, { isLoading: updateLoader }] =
-    useUpdateProductMutation();
-  const [deleteProduct, { isLoading: deleteLoader }] =
-    useDeleteProductMutation();
+  const [updateProduct] = useUpdateProductMutation();
+  const [deleteProduct] = useDeleteProductMutation();
 
   useEffect(() => {
     if (productData && productData._id) {
@@ -101,7 +98,6 @@ const ProductUpdate = () => {
       const publicId = image?.publicId;
 
       const data = await deleteProduct({ productId, publicId }).unwrap();
-      console.log("Delete response:", data);
 
       toast.success(`${data.product.name} is deleted successfully`);
       navigate("/admin/allproductslist");
@@ -112,7 +108,7 @@ const ProductUpdate = () => {
   };
 
   return (
-    <div className="mt-13 md:mt-15 lg:mt-17 mx-5 sm:mx-6 md:mx-10 lg:mx-15">
+    <div className="mt-13 mx-5 md:mt-15 lg:mt-17 sm:mx-6 md:mx-10 lg:mx-15 overflow-x-hidden">
       <div>
         <div>
           <div className="h-12 text-base sm:text-lg md:text-xl lg:text-2xl">
@@ -124,7 +120,7 @@ const ProductUpdate = () => {
               <img
                 src={image.url ? image.url : URL.createObjectURL(image)}
                 alt="product"
-                className="block mx-auto max-h-[200px]"
+                className="block mx-auto max-h-[200px] max-w-full"
               />
             </div>
           )}
@@ -142,7 +138,7 @@ const ProductUpdate = () => {
             </label>
           </div>
 
-          <div className="py-1 md:py-2 xl:py-3 ">
+          <div className="py-1 md:py-2 xl:py-3">
             <div className="flex mb-5 flex-col md:flex-row flex-wrap gap-4 md:gap-6 lg:gap-10">
               <div className="one flex flex-col flex-1">
                 {/* Name */}
@@ -285,9 +281,6 @@ const ProductUpdate = () => {
               >
                 Delete
               </button>
-
-              {updateLoader && <Loader />}
-              {deleteLoader && <Loader />}
             </div>
           </div>
         </div>

@@ -42,13 +42,13 @@ export const productApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["Product"],
     }),
 
-    uploadProductImage: builder.mutation({
-      query: (data) => ({
-        url: `${UPLOAD_URL}`,
-        method: "POST",
-        body: data,
-      }),
-    }),
+    // uploadProductImage: builder.mutation({
+    //   query: (data) => ({
+    //     url: `${UPLOAD_URL}`,
+    //     method: "POST",
+    //     body: data,
+    //   }),
+    // }),
 
     updateProduct: builder.mutation({
       query: ({ productId, formData }) => ({

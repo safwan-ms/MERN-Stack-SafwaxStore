@@ -16,7 +16,8 @@ const ProductList = () => {
   const [stock, setStock] = useState(0);
 
   const navigate = useNavigate();
-  const [createProduct] = useCreateProductMutation();
+  const [createProduct, { isLoading: createProductLoader }] =
+    useCreateProductMutation();
   const { data: categories, isLoading } = useFetchCategoriesQuery();
 
   const handleFileChange = (e) => {
@@ -217,13 +218,15 @@ const ProductList = () => {
               </select>
             </div>
           </div>
-
-          <button
-            onClick={handleSubmit}
-            className="py-1 xl:py-3 px-5 mt-2 text-base md:mt-5 rounded-lg md:text-lg font-bold bg-pink-600"
-          >
-            Submit
-          </button>
+          <div className="flex gap-5">
+            <button
+              onClick={handleSubmit}
+              className="py-1 xl:py-3 px-5 mt-2 text-base md:mt-5 rounded-lg md:text-lg font-bold bg-pink-600"
+            >
+              Submit
+            </button>
+            {createProductLoader && <Loader />}
+          </div>
         </div>
       </div>
     </div>

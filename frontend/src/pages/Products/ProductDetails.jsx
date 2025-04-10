@@ -88,7 +88,7 @@ const ProductDetails = () => {
                 <img
                   src={product.image?.url}
                   alt={product.name}
-                  className="w-[350px]  object-cover "
+                  className="w- object-cover "
                 />
               </div>
 

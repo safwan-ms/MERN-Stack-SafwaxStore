@@ -56,8 +56,10 @@ const ProductCarousel = () => {
 
                   <div className="mt-4 flex justify-between p-2">
                     <div className="one w-2/3">
-                      <h2 className="truncate">{name}</h2>
-                      <p>₹{new Intl.NumberFormat("en-IN").format(price)}</p>
+                      <h2 className="truncate text-sm">{name}...</h2>
+                      <p className="text-xs">
+                        ₹{new Intl.NumberFormat("en-IN").format(price)}
+                      </p>
                       <br />
                       <p className="text-xs lg:text-sm md:text-sm">
                         {description.substring(0, 170)}...
@@ -66,16 +68,16 @@ const ProductCarousel = () => {
 
                     <div className="flex justify-between w-[50%]">
                       <div className="one">
-                        <h1 className=" flex items-center mb-6 w-[9rem] text-xs">
+                        <h1 className=" flex items-center mb-6 w-[9rem] text-[10px]">
                           <FaStore className="text-white mr-2" /> Brand: {brand}
                         </h1>
 
-                        <h1 className="flex items-center w-[9rem] mb-6 text-xs">
+                        <h1 className="flex items-center w-[9rem] mb-6  text-[10px]">
                           <FaClock className="text-white mr-2" /> Added:{" "}
                           {moment(createdAt).fromNow()}
                         </h1>
 
-                        <h1 className=" flex items-center w-[9rem] mb-6 text-xs">
+                        <h1 className=" flex items-center w-[9rem] mb-6 text-[10px]">
                           <FaStar className="text-white mr-2" />
                           Reviews: {Number(numReviews)}
                         </h1>
