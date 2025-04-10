@@ -11,7 +11,7 @@ const SmallProduct = ({ product }) => {
         <div className="relative">
           <HeartIcon product={product} />
           <img
-            src={product.image}
+            src={product.image.url}
             alt={product.name}
             className="w-full h-[130px] sm:h-[200px] md:h-[200px] lg:h-[150px] object-cover rounded"
           />

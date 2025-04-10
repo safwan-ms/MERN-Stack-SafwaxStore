@@ -13,7 +13,7 @@ const ProductUpdate = () => {
 
   const { data: productData } = useGetProductByIdQuery(params._id);
 
-  const [image, setImage] = useState(productData?.image.url || "");
+  const [image, setImage] = useState(productData?.image || "");
   const [name, setName] = useState(productData?.name || "");
   const [description, setDescription] = useState(
     productData?.description || ""
@@ -38,13 +38,15 @@ const ProductUpdate = () => {
       setCategory(productData.category);
       setQuantity(productData.quantity);
       setBrand(productData.brand);
-      setImage(productData.image.url);
+      setImage(productData.image);
       setStock(productData.countInStock);
     }
   }, [productData]);
 
   const handleFileChange = (e) => {
-    setImage(e.target.files[0]); // Set the file, no API call needed
+    const file = e.target.files[0];
+    const result = setImage(file);
+    console.log(result);
   };
 
   const handleSubmit = async (e) => {
@@ -54,7 +56,7 @@ const ProductUpdate = () => {
     }
     try {
       const productData = new FormData();
-      productData.append("image", image); // Include the image
+
       productData.append("name", name);
       productData.append("description", description);
       productData.append("price", price);
@@ -62,19 +64,17 @@ const ProductUpdate = () => {
       productData.append("quantity", quantity);
       productData.append("brand", brand);
       productData.append("countInStock", stock);
+      // Debug: Log the productData
+      if (image && image instanceof File) {
+        productData.append("image", image);
+      }
 
-      const response = await updateProduct(productData).unwrap();
-      console.log({
-        name,
-        description,
-        price,
-        category,
-        quantity,
-        brand,
-        stock,
-        image,
-      });
-      console.log("updatedProduct", response);
+      console.log("Sending Product Data:", Object.fromEntries(productData));
+      const response = await updateProduct({
+        productId: params._id,
+        formData: productData,
+      }).unwrap();
+      console.log();
       if (response.error) {
         toast.error(response.error);
       } else {
@@ -119,7 +119,7 @@ const ProductUpdate = () => {
           {image && (
             <div className="text-center">
               <img
-                src={image?.url}
+                src={image.url ? image.url : URL.createObjectURL(image)}
                 alt="product"
                 className="block mx-auto max-h-[200px]"
               />
@@ -128,11 +128,11 @@ const ProductUpdate = () => {
 
           <div className="mb-3 text-center border rounded-lg w-full p-4 sm:p-5 md:p-6 lg:p-7 xl:p-8 cursor-pointer">
             <label className="cursor-pointer text-sm sm:text-base md:text-lg">
-              {image ? image.name : "Upload Image"}
+              {image && image.url ? image.publicId : image.name}
               <input
                 type="file"
                 accept="image/*"
-                className={!image ? "hidden" : "text-white"}
+                className={!image.url ? "hidden" : "text-white"}
                 placeholder="Choose File"
                 onChange={handleFileChange}
               />

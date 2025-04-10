@@ -84,7 +84,7 @@ const ProductDetails = () => {
             </div>
             <div className="flex flex-col md:flex-row gap-8 items-start p-6 ">
               {/* Product Image & Wishlist Icon */}
-              <div className="flex justify-center w-full md:w-1/2 border">
+              <div className="flex justify-center w-full md:w-1/2 ">
                 <img
                   src={product.image?.url}
                   alt={product.name}

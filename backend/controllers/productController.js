@@ -7,7 +7,15 @@ import Product from "../models/productModel.js";
 
 const addProduct = asyncHandler(async (req, res) => {
   try {
-    const { name, description, price, category, quantity, brand } = req.body;
+    const {
+      name,
+      description,
+      price,
+      category,
+      quantity,
+      brand,
+      countInStock,
+    } = req.body;
 
     //Validation
     switch (true) {
@@ -37,6 +45,7 @@ const addProduct = asyncHandler(async (req, res) => {
       category,
       quantity,
       brand,
+      countInStock,
       image: { url, publicId },
     });
 
@@ -92,6 +101,8 @@ const updateProductDetails = asyncHandler(async (req, res) => {
         return res.status(400).json({ error: "Quantity is required!" });
       case !brand:
         return res.status(400).json({ error: "Brand is required!" });
+      case !countInStock:
+        return res.status(400).json({ error: "CountInStock is required!" });
     }
 
     // Update only provided fields
@@ -101,6 +112,7 @@ const updateProductDetails = asyncHandler(async (req, res) => {
     product.category = category;
     product.quantity = quantity;
     product.brand = brand;
+    product.countInStock = countInStock;
 
     await product.save();
     res

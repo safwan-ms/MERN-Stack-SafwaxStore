@@ -7,7 +7,7 @@ const Product = ({ product }) => {
       <Link to={`/product/${product._id}`}>
         <img
           className="w-full h-[150px] sm:h-[200px] object-cover"
-          src={product.image}
+          src={product.image.url}
           alt={product.name}
         />
 
