@@ -13,7 +13,7 @@ const ProductCard = ({ p }) => {
     toast.success("Item added successfully");
   };
   return (
-    <div className="relative bg-[#1d1b1b] rounded-lg shadow ">
+    <div className="relative h-full bg-[#1d1b1b] rounded-lg shadow ">
       <section className="relative">
         <Link to={`/product/${p._id}`}>
           <span className="absolute bottom-3 right-3 bg-pink-100 text-pink-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">
@@ -31,7 +31,7 @@ const ProductCard = ({ p }) => {
       <div className="p-5">
         <div className="flex justify-between ">
           <h5 className="mb-2  text-xs xl:text-sm text-white dark:text-white">
-            {p?.name.substring(0, 30)}...
+            {p?.name.substring(0, 20)}...
           </h5>
 
           <p className="font-semibold text-xs text-pink-500">

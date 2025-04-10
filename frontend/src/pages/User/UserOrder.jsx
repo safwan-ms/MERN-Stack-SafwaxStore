@@ -33,9 +33,9 @@ const UserOrder = () => {
                 <tr key={order._id} className="text-center border-b-2">
                   <td className="py-2 px-4 border-b-2">
                     <img
-                      src={order.orderItems[0].image}
+                      src={order.orderItems[0].image.url}
                       alt={order.user}
-                      className="w-[4rem] sm:w-[6rem] mb-2 mx-auto"
+                      className="w-[4rem] h-[6rem] object-cover sm:w-[6rem] mb-2 mx-auto"
                     />
                   </td>
                   <td className="py-2 px-4 border-b-2 break-words">

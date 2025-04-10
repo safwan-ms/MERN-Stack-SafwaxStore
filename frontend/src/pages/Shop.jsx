@@ -103,7 +103,7 @@ const Shop = () => {
                   />
                   <label
                     htmlFor={`checkbox-${c._id}`}
-                    className="ml-2 text-sm font-medium text-white"
+                    className="ml-2 text-sm font-medium truncate text-white"
                   >
                     {c.name}
                   </label>
