@@ -221,7 +221,7 @@ const ProductList = () => {
           <div className="flex gap-5">
             <button
               onClick={handleSubmit}
-              className="py-1 xl:py-3 px-5 mt-2 text-base md:mt-5 rounded-lg md:text-lg font-bold bg-pink-600"
+              className="py-1 cursor-pointer xl:py-3 px-5 mt-2 text-base md:mt-5 rounded-lg md:text-lg font-bold bg-pink-600"
             >
               Submit
             </button>

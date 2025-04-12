@@ -29,10 +29,10 @@ const AdminMenu = () => {
   }, [isMenuOpen]);
 
   return (
-    <div className="relative">
+    <div className="relative cursor-pointer">
       {/* Animated Button */}
       <button
-        className={`fixed bottom-5 right-5 bg-pink-500 p-3 rounded-full z-50 transition-transform duration-300 ${
+        className={`fixed bottom-5 right-5 bg-pink-500 p-3 cursor-pointer rounded-full z-50 transition-transform duration-300 ${
           isMenuOpen ? "rotate-180" : "rotate-0"
         }`}
         onClick={toggleMenu}
