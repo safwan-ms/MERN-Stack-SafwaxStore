@@ -26,6 +26,7 @@
     "react-router-dom": "^7.1.3",
     "react-slick": "^0.30.3",
     "react-toastify": "^11.0.3",
+    "safwax-store": "file:..",
     "slick-carousel": "^1.8.1",
     "tailwindcss": "^4.0.0"
   },

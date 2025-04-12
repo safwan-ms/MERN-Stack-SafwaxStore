@@ -127,12 +127,12 @@ const ProductUpdate = () => {
 
           <div className="mb-3 text-center border rounded-lg w-full p-4 sm:p-5 md:p-6 lg:p-7 xl:p-8 cursor-pointer">
             <label className="cursor-pointer text-sm sm:text-base md:text-lg">
-              {image && image.url ? image.publicId : image.name}
+              {name}{" "}
               <input
                 type="file"
                 accept="image/*"
                 className={!image.url ? "hidden" : "text-white"}
-                placeholder="Choose File"
+                placeholder=""
                 onChange={handleFileChange}
               />
             </label>
