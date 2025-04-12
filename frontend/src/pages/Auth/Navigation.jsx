@@ -91,6 +91,7 @@ const Navigation = () => {
           <div>
             <NavLink
               to="/"
+              onClick={() => setShowSidebar(false)}
               className="hover-effect flex items-center gap-3 py-3 hover:text-pink-400 hover:translate-x-2"
             >
               <AiOutlineHome size={26} /> <span>HOME</span>
@@ -98,6 +99,7 @@ const Navigation = () => {
 
             <NavLink
               to="/shop"
+              onClick={() => setShowSidebar(false)}
               className="flex items-center gap-3 py-3 hover:text-pink-400 hover:translate-x-2"
             >
               <AiOutlineShopping size={26} /> <span>SHOP</span>
@@ -105,6 +107,7 @@ const Navigation = () => {
 
             <NavLink
               to="/cart"
+              onClick={() => setShowSidebar(false)}
               className="flex relative items-center gap-3  py-3 hover:text-pink-400 hover:translate-x-2"
             >
               <AiOutlineShoppingCart size={26} /> <span>CART</span>
@@ -113,6 +116,7 @@ const Navigation = () => {
 
             <NavLink
               to="/favorite"
+              onClick={() => setShowSidebar(false)}
               className="hover-effect relative flex items-center gap-3  py-3 hover:text-pink-400 hover:translate-x-2 "
             >
               <FaHeart size={26} /> <span>FAVORITE</span> <FavoritesCount />
