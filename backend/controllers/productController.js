@@ -36,7 +36,7 @@ const addProduct = asyncHandler(async (req, res) => {
       return res.status(400).json({ error: "Product image is required!" });
     }
     // Upload image to Cloudinary
-    const { url, publicId } = await uploadToCloudinary(req.file.path);
+    const { url, publicId } = await uploadToCloudinary(req.file.buffer);
 
     const product = new Product({
       name,
