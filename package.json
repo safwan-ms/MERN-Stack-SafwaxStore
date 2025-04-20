@@ -4,6 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "backend": "nodemon backend/index.js",
     "dev": "NODE_ENV=development nodemon backend/index.js",
     "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
     "start": "cross-env NODE_ENV=production node backend/index.js"
@@ -27,7 +28,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.13.0",
     "multer": "^1.4.5-lts.2",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "streamifier": "^0.1.1"
   },
   "devDependencies": {
     "cross-env": "^7.0.3"

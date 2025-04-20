@@ -32,11 +32,16 @@ const addProduct = asyncHandler(async (req, res) => {
       case !brand:
         return res.status(400).json({ error: "Brand is required!" });
     }
+
     if (!req.file) {
       return res.status(400).json({ error: "Product image is required!" });
     }
     // Upload image to Cloudinary
-    const { url, publicId } = await uploadToCloudinary(req.file.buffer);
+    const result = await uploadToCloudinary(req.file.buffer);
+    const { secure_url: url, public_id: publicId } = result;
+    console.log("RESULR", result);
+    console.log("Url :", url);
+    console.log("PublicId :", publicId);
 
     const product = new Product({
       name,
@@ -85,7 +90,9 @@ const updateProductDetails = asyncHandler(async (req, res) => {
       }
 
       //Upload new image
-      const { url, publicId } = await uploadToCloudinary(req.file.path);
+      const result = await uploadToCloudinary(req.file.buffer);
+      const { secure_url: url, public_id: publicId } = result;
+
       product.image = { url, publicId };
     }
     switch (true) {

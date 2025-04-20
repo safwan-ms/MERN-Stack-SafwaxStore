@@ -1,27 +1,27 @@
 import cloudinary from "../config/cloudinary.js";
-import streamifier from "streamifier"; // To stream buffer to Cloudinary
+import streamifier from "streamifier";
 
 const uploadToCloudinary = async (buffer) => {
-  try {
+  return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
-      { resource_type: "auto" }, // Detect resource type (image, video, etc.)
+      { resource_type: "auto" },
       (error, result) => {
         if (error) {
-          throw new Error(`Cloudinary upload failed: ${error.message}`);
+          console.error("Cloudinary upload failed:", error);
+          return reject(
+            new Error(`Cloudinary upload failed: ${error.message}`)
+          );
         }
-        return result; // This is the response from Cloudinary
+        const { secure_url: url, public_id: publicId } = result;
+
+        resolve(result); // ✅ Send the result back to the caller
       }
     );
 
-    // Stream the buffer directly to Cloudinary
-    streamifier.createReadStream(buffer).pipe(stream); // Pipe buffer into the Cloudinary upload stream
-
-  } catch (error) {
-    console.error("Error while uploading to Cloudinary ", error);
-    throw new Error("Error while uploading to Cloudinary");
-  }
+    // Pipe the buffer to the Cloudinary stream
+    streamifier.createReadStream(buffer).pipe(stream);
+  });
 };
-
 
 const removeFromCloudinary = async (publicId) => {
   try {

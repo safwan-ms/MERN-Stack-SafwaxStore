@@ -7,6 +7,7 @@ import {
 } from "../../redux/api/productApiSlice.js";
 import { useFetchCategoriesQuery } from "../../redux/api/categoryApiSlice.js";
 import { toast } from "react-toastify";
+import Loader from "../../components/Loader.jsx";
 
 const ProductUpdate = () => {
   const params = useParams();
@@ -27,8 +28,10 @@ const ProductUpdate = () => {
   const navigate = useNavigate();
 
   const { data: categories = [] } = useFetchCategoriesQuery();
-  const [updateProduct] = useUpdateProductMutation();
-  const [deleteProduct] = useDeleteProductMutation();
+  const [updateProduct, { isLoading: updateProductLoader }] =
+    useUpdateProductMutation();
+  const [deleteProduct, { isLoading: deleteProductLoader }] =
+    useDeleteProductMutation();
 
   useEffect(() => {
     if (productData && productData._id) {
@@ -54,6 +57,7 @@ const ProductUpdate = () => {
     if (!name || !description || !price || !category || !quantity || !brand) {
       return toast.error("Please fill all required fields.");
     }
+
     try {
       const productData = new FormData();
 
@@ -281,6 +285,8 @@ const ProductUpdate = () => {
               >
                 Delete
               </button>
+              {updateProductLoader && <Loader />}
+              {deleteProductLoader && <Loader />}
             </div>
           </div>
         </div>

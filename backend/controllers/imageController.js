@@ -2,6 +2,7 @@ import { uploadToCloudinary } from "../helpers/cloudinaryHelper.js";
 
 const uploadImage = async (req, res) => {
   try {
+    console.log("Hello World");
     // Check if the file is missing
     if (!req.file) {
       return res.status(400).json({
@@ -11,8 +12,9 @@ const uploadImage = async (req, res) => {
     }
 
     // Upload image to Cloudinary
-    const { url, publicId } = await uploadToCloudinary(req.file.path);
-
+    const result = await uploadToCloudinary(req.file.buffer);
+    const { secure_url: url, public_id: publicId } = result;
+    console.log("RESULT", result);
     // Send response with image URL and public ID
     res.status(201).json({
       success: true,
